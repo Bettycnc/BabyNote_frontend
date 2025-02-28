@@ -1,15 +1,31 @@
 import styles from '../styles/Home.module.css';
+import React, { useState } from "react";
+import Authentification from "./Login/Authentification";
 
-function Home() {
+const HomePage = () => {
+  const [page, setPage] = useState("home");
+
   return (
-    <div>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-      </main>
+    <div className={styles.container}>
+      {page === "home" ? (
+        <div className={styles.card}>
+          <div className={styles.overlay}>
+            <button 
+              className={styles.button} 
+              onClick={() => setPage("auth")}
+            >
+              Je suis <span className="bold">un parent</span>
+            </button>
+            <button className={styles.button}>
+              Je fais partie du <span className="bold">Personnel soignant</span>
+            </button>
+          </div>
+        </div>
+      ) : (
+        <Authentification /> // Affiche le composant sans changer de page
+      )}
     </div>
   );
-}
+};
 
-export default Home;
+export default HomePage;
