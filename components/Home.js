@@ -3,7 +3,7 @@ import React, { useState } from "react";
 
 const HomePage = () => {
   const [page, setPage] = useState("home");
-
+  
   return (
     <div className={styles.container}>
       <div className={styles.card}>
