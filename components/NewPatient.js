@@ -27,46 +27,54 @@ const NewPatientPage = () => {
         } else {
           setError("");
           console.log("changement de page");
-          window.location.href = "/"; //A MODIFIER QUAND PAGE LISTE PATIENTE SERVICE EST FAITE
+          window.location.href = "/listPatient";
         }
       });
   };
 
   return (
     <div className={styles.container}>
-      <span className={styles.h4}>Ajouter un patiente</span>
-      <p className={styles.error}>{error}</p>
-      <input
-        type="text"
-        placeholder="Nom de famille*"
-        id="signUpLastname"
-        onChange={(e) => setSignUpLastname(e.target.value)}
-        value={signUpLastname}
-      />
-      <input
-        type="text"
-        placeholder="Prénom de la mère*"
-        id="signUpMotherName"
-        onChange={(e) => setSignUpMotherName(e.target.value)}
-        value={signUpMotherName}
-      />
-      <input
-        type="text"
-        placeholder="Nom d'utilisateur*"
-        id="signUpUsername"
-        onChange={(e) => setSignUpUsername(e.target.value)}
-        value={signUpUsername}
-      />
-      <input
-        type="text"
-        placeholder="Numéro de chambre*"
-        id="signUpRoom"
-        onChange={(e) => setSignUpRoom(e.target.value)}
-        value={signUpRoom}
-      />
-      <button className={styles.button} onClick={() => handleAdd()}>
-        Ajouter la patiente
-      </button>
+      <div className={styles.card}>
+        <div className={styles.containerTitleInput}>
+          <span className={styles.h4}>Ajouter un patiente</span>
+          <p className={styles.error}>{error}</p>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Nom de famille*"
+            id="signUpLastname"
+            onChange={(e) => setSignUpLastname(e.target.value)}
+            value={signUpLastname}
+          />
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Prénom de la mère*"
+            id="signUpMotherName"
+            onChange={(e) => setSignUpMotherName(e.target.value)}
+            value={signUpMotherName}
+          />
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Nom d'utilisateur*"
+            id="signUpUsername"
+            onChange={(e) => setSignUpUsername(e.target.value)}
+            value={signUpUsername}
+          />
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Numéro de chambre*"
+            id="signUpRoom"
+            onChange={(e) => setSignUpRoom(e.target.value)}
+            value={signUpRoom}
+          />
+        </div>
+        <button className={styles.button} onClick={() => handleAdd()}>
+          Ajouter la patiente
+        </button>
+      </div>
     </div>
   );
 };

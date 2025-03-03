@@ -37,34 +37,38 @@ const ConnectionParentPage = () => {
               motherName: data.data.motherName,
             })
           );
-          window.location.href = "/listPatient"; //A MODIFIER QUAND PAGE LISTE PATIENTE SERVICE EST FAITE
+          window.location.href = "/"; //A MODIFIER QUAND PAGE ajouter bébé ou tableau de bord bébé SERVICE EST FAITE
         }
       });
   };
 
   return (
     <div className={styles.container}>
-      <span className={styles.h4}>Connexion</span>
-      <p className={styles.error}>{error}</p>
-      <input
-        type="text"
-        placeholder="Nom d'utilisateur*"
-        id="signinUsername"
-        onChange={(e) => setSigninUsername(e.target.value)}
-        value={signinUsername}
-      />
-      <input
-        type="password"
-        placeholder="Mot de Passe*"
-        id="signinPassword"
-        onChange={(e) => setSigninPassword(e.target.value)}
-        value={signinPassword}
-      />
-      <button className={styles.button} onClick={() => handleConnect()}>
-        Connexion
-      </button>
-      {/* test affichage reducer */}
-      Bienvenue {user.motherName} !
+      <div className={styles.card}>
+        <div className={styles.containerTitleInput}>
+          <span className={styles.h4}>Connexion</span>
+          <p className={styles.error}>{error}</p>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Nom d'utilisateur*"
+            id="signinUsername"
+            onChange={(e) => setSigninUsername(e.target.value)}
+            value={signinUsername}
+          />
+          <input
+            type="password"
+            className={styles.input}
+            placeholder="Mot de Passe*"
+            id="signinPassword"
+            onChange={(e) => setSigninPassword(e.target.value)}
+            value={signinPassword}
+          />
+        </div>
+        <button className={styles.button} onClick={() => handleConnect()}>
+          Connexion
+        </button>
+      </div>
     </div>
   );
 };
