@@ -1,19 +1,15 @@
 import styles from '../styles/Home.module.css';
-import React, { useState } from "react";
-import Authentification from "./Login/Authentification";
+import React from "react";
 
 const HomePage = () => {
-  const [page, setPage] = useState("home");
 
   return (
     <div className={styles.container}>
-      {page === "home" ? (
         <div className={styles.card}>
           <div className={styles.overlay}>
             <button 
               className={styles.button} 
-              onClick={() => setPage("auth")}
-            >
+              onClick={() => setPage("auth")}>
               Je suis <span className="bold">un parent</span>
             </button>
             <button className={styles.button}>
@@ -21,9 +17,6 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-      ) : (
-        <Authentification /> // Affiche le composant sans changer de page
-      )}
     </div>
   );
 };
