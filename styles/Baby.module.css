@@ -12,10 +12,10 @@
     display: flex;
     align-items: center;
     padding-top: 20px;
+    justify-content: space-between;
 }
 
 .BurgerMenu{
-    margin-left: auto;
     margin-right: 20px;
     height: 30px;
 }
@@ -25,13 +25,12 @@
     width: 70px;
     border-radius: 50%;
     background-image: url('../public/avatarBaby.jpg');
-    margin-left: 20px;
+    margin-left: 30px;
     border: 2px solid white
-    
 }
 
 .babyName{
-    margin-left: 20px;
+    margin-left: -40px;
     font-size: 28px;
     font-weight: 500;
 }
@@ -41,65 +40,164 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
     margin-top: 20px;
 }
 
 .weigthContainer{
     background-color: white;
-    width: 80vw;
+    width: 90%;
     height: 180px;
     border-radius: 10px;
+    padding-left: 20px;
+    padding-top: 20px;
 }
 
 .weightCard{
     display: flex;
+    gap : 20px;
+    width: 100%;
+    height: 90%;
+}
+
+.weightInfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.variationText{
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.flecheBas{
+    stroke: rgba(232, 179, 74, 1);
+}
+
+.variationVal{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.variationBold{
+    font-weight: bold;
+}
+
+.smallWeight{
+    font-weight: bold;
+    font-size: 10px;
+}
+
+.bigWeight{
+    font-size: 20px;
 }
 
 .sousContainer{
     display:flex;
-    gap: 20px;
+    gap: 10px;
+    width: 90%;
 }
 
 .alimContainer{
     background-color: white;
-    width: 38vw;
+    width: 50%;
     height: 190px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logoAlim, .logoElim{
+    height: 60px;
+    margin-top: 10px;
+}
+
+.textBold{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .elimContainer{
     background-color: white;
-    width: 38vw;
+    width: 50%;
     height: 190px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 .tempContainer{
     background-color: white;
-    width: 80vw;
+    width: 90%;
     height: 80px;
     border-radius: 10px;
     display: flex;
+    align-items: center;
+}
+
+.tempChart{
+    width: 65%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.tempData{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.tempData .textBold{
+    margin-top: 0;
 }
 
 .bathContainer{
     background-color: white;
-    width: 24vw;
+    width: 33%;
     height: 190px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 .faceContainer{
     background-color: white;
-    width: 24vw;
+    width: 34%;
     height: 190px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 .cordContainer{
     background-color: white;
-    width: 24vw;
+    width: 33%;
     height: 190px;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.logoCare{
+    height: 60px;
+    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .button{
@@ -109,7 +207,42 @@
     height: 50px;
     border-radius: 25px;
     margin-bottom: 20px;
-    color: black;
+    margin-top: 20px;
+    color: rgba(226, 226, 226, 1);
 }
+
+.detailButton{
+    border: none;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    margin-top: auto;
+    margin-left: auto;
+    color :rgba(50, 115, 140, 1);
+}
+
+.detailButton:hover{
+    cursor: pointer;
+}
+
+.logoButton{
+    height: 12px;
+}
+
+
+.bathContainer .detailButton{
+    margin-left: 0;
+}
+
+.cordContainer .detailButton{
+    margin-left: 0;
+}
+
+.faceContainer .detailButton{
+    margin-left: 0;
+}
+
 
 }

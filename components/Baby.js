@@ -2,6 +2,8 @@ import styles from '../styles/Baby.module.css';
 import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import moment from "moment";
+import Link from "next/link";
+
 
 const BabyPage = () => {
     const [baby, setBaby] = useState(null);
@@ -18,6 +20,8 @@ const BabyPage = () => {
     if (!baby) {
         return <p>Chargement...</p>;
     }
+
+
 //DONNEES POUR POIDS 
     const birthWeight = baby.birthWeight;
     const weights = baby.weight_id; // Liste des objets poids
@@ -30,6 +34,8 @@ const BabyPage = () => {
     const variation = lastWeight
         ? ((birthWeight - lastWeight) / birthWeight) * 100
         : null;
+    
+    const variationNeg = lastWeight - birthWeight ? true : false;
 
     // Données pour le graphique
     const chartData = lastWeight ? [
@@ -75,18 +81,33 @@ const BabyPage = () => {
 //DONNEES POUR Visage
     // Trouver le dernier bain donné (bath: true)
     const lastCareFace = baby.care_id
-    .filter(care => care.faceCare) // Ne garder que les entrées où bath=true
+    .filter(care => care.faceCare) // Ne garder que les entrées où faceCare=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateCareFace = moment(lastBath.date).format("HH:mm")
+    const formatedDateCareFace = moment(lastCareFace.date).format("HH:mm")
     
 //DONNEES POUR CORDON
     // Trouver le dernier bain donné (bath: true)
     const lastCareCord = baby.care_id
-    .filter(care => care.cordCare) // Ne garder que les entrées où bath=true
+    .filter(care => care.cordCare) // Ne garder que les entrées où cordCare=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateCareCord = moment(lastBath.date).format("HH:mm")
+    const formatedDateCareCord = moment(lastCareCord.date).format("HH:mm")
+
+//DONNEES POUR ALIMENTATION
+    const dataAlim = baby.alimentation_id
+
+    // Trier les données par date décroissante (du plus récent au plus ancien)
+    const sortedDataAlim = [...dataAlim].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
+    const formatedDateAlim = moment(sortedDataAlim.date).format("HH:mm")
+    let lastFeeding = {}
+
+    if(sortedDataAlim.breastFeeding?.length > 0) {
+        lastFeeding = {duration: sortedDataAlim.breastFeeding[0].duration, breast: sortedDataAlim.breastFeeding[0].breast, foodSupplement: sortedDataAlim.breastFeeding[0].foodSupplement, date:formatedDateAlim}
+    } else {
+        lastFeeding = {amount: sortedDataAlim.feedingBottle[0].amount, date: formatedDateAlim}
+    }
+
 
     return (
         <div className={styles.container}>
@@ -102,73 +123,133 @@ const BabyPage = () => {
                 <div className={styles.weigthContainer}>
                     {lastWeight ? (
                         <div className={styles.weightCard}>
+                            <div className={styles.chartContainer}>
                             <PieChart width={120} height={120}>
                                 <Pie
                                     data={chartData}
                                     dataKey="value"
                                     cx="50%"
                                     cy="50%"
-                                    innerRadius={40}
-                                    outerRadius={50}
+                                    innerRadius={50}
+                                    outerRadius={60}
                                     startAngle={90}
                                     endAngle={-270}
-                                    fill="#1E567C"
-                                    >
+                                    paddingAngle={5}
+                                >
                                     <Cell fill="#1E567C" />
                                     <Cell fill="#E0E0E0" />
                                 </Pie>
+                                <text x="50%" y="45%" textAnchor="middle" dominantBaseline="middle" className={styles.bigWeight}>{lastWeight} g</text>
+                                <text x="50%" y="60%" textAnchor="middle" dominantBaseline="middle" className={styles.smallWeight}>/ {birthWeight} g</text>
                             </PieChart>
-                            <div className={styles.weightInfo}>
-                                <p className={styles.bigWeight}>{lastWeight} g</p>
-                                <p className={styles.smallWeight}>/ {birthWeight} g</p>
-                                {variation !== null && (
-                                    <p className={styles.variation}>
-                                        <span className={variation >= 0 ? styles.positive : styles.negative}>
-                                            {variation.toFixed(1)}%
-                                        </span>
-                                    </p>
-                                )}
                             </div>
+                                {variationNeg ? (
+                                    <div className={styles.weightInfo}>
+                                        <p>Variation du poids depuis la naissance :</p>
+                                         <div className={styles.variationVal}>
+                                            <img className={styles.flecheBas} src='/flecheVariationBas.svg'></img>
+                                            <p className={styles.variationText}>+ {variation.toFixed(1)}% </p>
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <div className={styles.weightInfo}>
+                                        <p>Variation du poids depuis la naissance :</p>
+                                        <div>
+                                            <img src='/flecheVariationHaut'></img>
+                                            <p className={styles.smallWeight}>+ {variation.toFixed(1)}% </p>
+                                        </div>
+                                    </div>
+                                )}
                         </div>
                     ) : (
                         <p className={styles.noData}>Aucune donnée de poids enregistrée</p>
                     )}
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevron.svg' className={styles.logoButton}></img>
+                        </button>
                 </div>
                 <div className={styles.sousContainer}>
                     <div className={styles.alimContainer}>
-                        <img src='/Biberon.svg'></img>
-                        <p></p>
+                        {sortedDataAlim.breastFeeding?.length > 0 ? (
+                            <div>
+                                <img className={styles.logoAlim} src='/allaitement.svg'></img>
+                                <p>{lastFeeding.date}</p>
+                                <p className={styles.textBold}>{lastFeeding.duration} min</p>
+                                    {lastFeeding.foodSupplement.foodSupplementPresent !== true ? (
+                                        <p>Complément : Oui</p>
+                                    ) : (
+                                        <p>Complément : Non</p>
+                                    )}
+                            </div>
+                        ) : (
+                            <div>
+                                <img className={styles.logoAlim} src='/Biberon.svg' ></img>
+                                 <p>{lastFeeding.date}</p>
+                                 <p className={styles.textBold}>{lastFeeding.amount}</p>
+                            </div>
+                        )}
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
                     </div>
                     <div className={styles.elimContainer}>
-                        <img src='/couche.svg'></img>
+                        <img className={styles.logoElim} src='/couche.svg'></img>
                         <p>{formatedDateElim}</p>
-                        <p>{displayedFieldsElim.length > 0 ? displayedFieldsElim.join(" & ") : "Aucune donnée disponible"}</p>
-                    </div>
+                        <p className={styles.textBold} >{displayedFieldsElim.length > 0 ? displayedFieldsElim.join(" & ") : "Aucune donnée disponible"}</p>
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
+                        </div>
                 </div>
                 <div className={styles.tempContainer}>
-                    <img src='/temperature.svg'></img>
-                    <p>{formatedDateTemp}</p>
-                    <p>{lastEntryTemp !== null ? lastEntryTemp.temperature : "Aucune donnée disponible"}</p>
+                    <div className={styles.tempChart}>
+                        <img className={styles.logoTemp} src='/temperature.svg'></img>
+                        <div className={styles.tempData}>
+                            <p className={styles.textBold} >{lastEntryTemp !== null ? 
+                            `${lastEntryTemp.temperature}°C` : "Aucune donnée disponible"}</p>
+                            <p>{formatedDateTemp}</p>
+                        </div>
+                    </div>
+                    <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                    </button>
                 </div>
                 <div className={styles.sousContainer}>
                     <div className={styles.bathContainer}>
-                        <p>Bain</p>
-                        <img src='/bain.svg'></img>
+                        <p className={styles.textBold}>Bain</p>
+                        <img className={styles.logoCare} src='/bain.svg'></img>
                         <p>{formatedDateBath}</p>
-                    </div>
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
+                        </div>
                     <div className={styles.faceContainer}>
-                        <p>Visage</p>
-                        <img src='/visage.svg'></img>
+                        <p className={styles.textBold}>Visage</p>
+                        <img className={styles.logoCare} src='/visage.svg'></img>
                         <p>{formatedDateCareFace}</p>
-                    </div>
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
+                        </div>
                     <div className={styles.cordContainer}>
-                        <p>Cordon</p>
-                        <img src='/Cordon.svg'></img>
+                        <p className={styles.textBold}>Cordon</p>
+                        <img className={styles.logoCare} src='/Cordon.svg'></img>
                         <p>{formatedDateCareCord}</p>
-                    </div>
+                        <button className={styles.detailButton}>
+                            <p>Voir le détail</p>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
+                        </div>
                 </div>
-
-                <button className={styles.button}>Nouvel évènement</button>
+                <Link href={"/newData"}>
+                    <button className={styles.button}> Nouvelles données </button>
+                </Link>
             </div>
         </div>
     );
