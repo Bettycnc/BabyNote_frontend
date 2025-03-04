@@ -1,5 +1,7 @@
 import { useState } from "react";
-import styles from "../styles/ConnectionParent.module.css";
+import styles from "../styles/ConnexionPro.module.css";
+import Link from "next/link";
+
 
 const ConnexionPro = () => {
   const [signInUsername, setSignInUsername] = useState("");
@@ -24,17 +26,23 @@ const ConnexionPro = () => {
 
           setError("");
           console.log(data);
+          window.location.href = "/listPatient";
+          // Ajouter le lien vers la liste des patientes
         } else {
           setError(data.error);
         }
       });
   };
+
+ 
+    
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.containerTitleInput}>
           <p className={styles.h4}>Connexion</p>
-          <p>{error}</p>
+          <p className={styles.error}>{error}</p>
           <input
             type="text"
             className={styles.input}
@@ -62,7 +70,13 @@ const ConnexionPro = () => {
         </button>
 
         <p className={styles.textSmall}>Pas encore de compte ?</p>
-        <button className={styles.buttonLight}>Créer un compte</button>
+
+        <Link href="/inscriptionPro">
+         <button className={styles.buttonLight}>
+        Créer un compte
+         </button>
+        </Link>
+
       </div>
     </div>
   );
