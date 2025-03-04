@@ -28,16 +28,31 @@ const ConnectionParentPage = () => {
           setError(data.error);
         } else {
           setError("");
-          console.log("Ulilisateur connecté !");
+          const userId = data.data._id;
+
           //MAJ du reducer user
           dispatch(
             login({
               token: data.data.token,
               username: data.data.username,
               motherName: data.data.motherName,
+              _id: data.data._id,
             })
           );
-          window.location.href = "/"; //A MODIFIER QUAND PAGE ajouter bébé ou tableau de bord bébé SERVICE EST FAITE
+          //si le parent est associé à un bébé dans la BDD alors redirection vers page tableau de bord sinon redirection vers ajoutter un bébé
+          fetch(`http://localhost:3000/babyData/${userId}`)
+            .then((response) => response.json())
+            .then((dataBaby) => {
+              console.log("dataBaby : ", dataBaby);
+              if (dataBaby.result) {
+                console.log("go to tableau de bord");
+                //Lien A mettre quand page crée
+                // window.location.href = "/";
+              } else {
+                console.log("go to ajout bébé");
+                //Lien A mettre quand page crée
+              }
+            });
         }
       });
   };

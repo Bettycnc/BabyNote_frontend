@@ -1,5 +1,6 @@
 import styles from "../styles/NewPatient.module.css";
 import { useEffect, useState } from "react";
+import React from "react";
 
 const NewPatientPage = () => {
   const [signUpLastname, setSignUpLastname] = useState("");
@@ -9,27 +10,31 @@ const NewPatientPage = () => {
   const [error, setError] = useState("");
 
   const handleAdd = () => {
-    fetch("http://localhost:3000/users/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        lastname: signUpLastname,
-        motherName: signUpMotherName,
-        username: signUpUsername,
-        room: signUpRoom,
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("click", data);
-        if (!data.result) {
-          setError(data.error);
-        } else {
-          setError("");
-          console.log("changement de page");
-          window.location.href = "/listPatient";
-        }
-      });
+    if (signUpRoom > 0 && signUpRoom < 99) {
+      fetch("http://localhost:3000/users/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lastname: signUpLastname,
+          motherName: signUpMotherName,
+          username: signUpUsername,
+          room: signUpRoom,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("click", data);
+          if (!data.result) {
+            setError(data.error);
+          } else {
+            setError("");
+            console.log("changement de page");
+            window.location.href = "/listPatient";
+          }
+        });
+    } else {
+      setError("Le numéro de chambre doit être compris entre 1 et 99");
+    }
   };
 
   return (
@@ -63,7 +68,9 @@ const NewPatientPage = () => {
             value={signUpUsername}
           />
           <input
-            type="text"
+            type="number"
+            min="1"
+            max="999"
             className={styles.input}
             placeholder="Numéro de chambre*"
             id="signUpRoom"
