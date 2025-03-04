@@ -32,6 +32,8 @@ const InscriptionPro = () => {
           setSignUpConfirmPassword("");
 
           console.log("cliqué et enregistré");
+          window.location.href = "/listPatient";
+          // Ajouter le lien vers la liste des patientes
         } else {
           setError(data.error);
 
@@ -40,6 +42,8 @@ const InscriptionPro = () => {
       });
   };
 
+ 
+    
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -98,9 +102,12 @@ const InscriptionPro = () => {
 
         <p className={styles.textSmall}>Déjà inscrit ?</p>
 
-        <button className={styles.buttonLight}>
-          <Link href="/connexionPro">Me connecter</Link>
+        <Link href={"/connexionPro"}> 
+        <button className={styles.buttonLight} >
+          Me connecter
         </button>
+        </Link>
+       
       </div>
     </div>
   );
