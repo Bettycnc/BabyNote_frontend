@@ -14,9 +14,8 @@ const BabyPage = () => {
             .then(data => {
                 setBaby(data.data);
             });
-    }, []);
+    }, []); 
 
-    console.log(baby)
     if (!baby) {
         return <p>Chargement...</p>;
     }
@@ -55,10 +54,11 @@ const BabyPage = () => {
     const lastEntryElim = sortedDataElim[0];
     const formatedDateElim = moment(lastEntryElim.date).format("HH:mm")
 
-    // Filtrer les valeurs à afficher
+    // Filtrer les valeurs à afficher, si urine=true alors on affiche Urines et si gambling=true alors on affiche Selles
     const displayedFieldsElim = Object.entries(lastEntryElim)
-        .filter(([key, value]) => (key === "urine" || key === "gambling") && value)
-        .map(([key]) => key);
+    .filter(([key, value]) => (key === "urine" || key === "gambling") && value)
+    .map(([key]) => key === "urine" ? "Urines" : "Selles")
+    .join(" & ");
 
 //DONNEES POUR TEMPERATURE
     const dataTemp = baby.temperature_id
@@ -120,6 +120,8 @@ const BabyPage = () => {
 
             {/* Données */}
             <div className={styles.data}>
+
+                {/* poids */}
                 <div className={styles.weigthContainer}>
                     {lastWeight ? (
                         <div className={styles.weightCard}>
@@ -148,7 +150,7 @@ const BabyPage = () => {
                                         <p>Variation du poids depuis la naissance :</p>
                                          <div className={styles.variationVal}>
                                             <img className={styles.flecheBas} src='/flecheVariationBas.svg'></img>
-                                            <p className={styles.variationText}>+ {variation.toFixed(1)}% </p>
+                                            <p className={styles.variationText}>- {variation.toFixed(1)}% </p>
                                         </div>
                                     </div>
                                 ) : (
@@ -164,12 +166,17 @@ const BabyPage = () => {
                     ) : (
                         <p className={styles.noData}>Aucune donnée de poids enregistrée</p>
                     )}
+                    <Link href={"/weight"}>
                         <button className={styles.detailButton}>
                             <p>Voir le détail</p>
-                            <img src='/chevron.svg' className={styles.logoButton}></img>
+                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
                         </button>
+                    </Link>    
                 </div>
+
                 <div className={styles.sousContainer}>
+
+                    {/* alimentation */}
                     <div className={styles.alimContainer}>
                         {sortedDataAlim.breastFeeding?.length > 0 ? (
                             <div>
@@ -186,24 +193,32 @@ const BabyPage = () => {
                             <div>
                                 <img className={styles.logoAlim} src='/Biberon.svg' ></img>
                                  <p>{lastFeeding.date}</p>
-                                 <p className={styles.textBold}>{lastFeeding.amount}</p>
+                                 <p className={styles.textBold}>{lastFeeding.amount} mL</p>
                             </div>
                         )}
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
+                        <Link href={"/alimentation"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>
                     </div>
+
+                    {/* elimination */}
                     <div className={styles.elimContainer}>
                         <img className={styles.logoElim} src='/couche.svg'></img>
                         <p>{formatedDateElim}</p>
-                        <p className={styles.textBold} >{displayedFieldsElim.length > 0 ? displayedFieldsElim.join(" & ") : "Aucune donnée disponible"}</p>
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
-                        </div>
+                        <p className={styles.textBold} >{displayedFieldsElim.length > 0 ? displayedFieldsElim : "Aucune donnée disponible"}</p>
+                        <Link href={"/elimination"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>
+                    </div>
                 </div>
+
+                {/* temperature  */}
                 <div className={styles.tempContainer}>
                     <div className={styles.tempChart}>
                         <img className={styles.logoTemp} src='/temperature.svg'></img>
@@ -213,40 +228,53 @@ const BabyPage = () => {
                             <p>{formatedDateTemp}</p>
                         </div>
                     </div>
-                    <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                    </button>
+                    <Link href={"/temperature"}>
+                        <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                        </button>
+                    </Link>
                 </div>
                 <div className={styles.sousContainer}>
+                
+                {/* bain */}
                     <div className={styles.bathContainer}>
                         <p className={styles.textBold}>Bain</p>
                         <img className={styles.logoCare} src='/bain.svg'></img>
                         <p>{formatedDateBath}</p>
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
+                        <Link href={"/bath"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>
                         </div>
+                {/* soin visage */}
                     <div className={styles.faceContainer}>
                         <p className={styles.textBold}>Visage</p>
                         <img className={styles.logoCare} src='/visage.svg'></img>
                         <p>{formatedDateCareFace}</p>
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
-                        </div>
+                        <Link href={"/faceCare"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>
+                    </div>
+                {/* soin cordon */}
                     <div className={styles.cordContainer}>
                         <p className={styles.textBold}>Cordon</p>
                         <img className={styles.logoCare} src='/Cordon.svg'></img>
                         <p>{formatedDateCareCord}</p>
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
-                        </div>
+                        <Link href={"/cordCare"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>
+                    </div>
                 </div>
+
                 <Link href={"/newData"}>
                     <button className={styles.button}> Nouvelles données </button>
                 </Link>
