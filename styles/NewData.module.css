@@ -147,7 +147,7 @@
     flex-direction: column;
     }
 
-    .titreAlim{
+    .titreAlim, .titreTemp, .titreElim, .titreWeight, .titreCare{
         display: flex;
     }
 
@@ -170,6 +170,22 @@
         height: 110px;
     }
 
+    .buttonAlim{
+        background-color: transparent;
+        border: none;
+    }
+
+    .choixSeins{
+        margin-top: 20px;
+    }
+
+    .choixComplement{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-top: 1px solid rgb(165, 164, 164);
+    }
+
     .elimContainer{
     background-color: white;
     width: 90%;
@@ -180,10 +196,12 @@
     flex-direction: column;
     }
 
-    .titreElim{
+    .addDataElim{
+        margin-top: 20px;
         display: flex;
+        justify-content: space-around;
+        align-items: center;
     }
-
 
     .weightContainer{
     background-color: white;
@@ -194,9 +212,29 @@
     display: flex;
     flex-direction: column;
     }
-    
-    .titreWeight{
+
+    .addDataWeight{
+        margin-top: 20px;
         display: flex;
+        justify-content: space-around;
+        align-items: center; 
+    }
+
+    .weightBtn{
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        border: none;
+        background-color: rgba(50, 115, 140, 1);
+        color: #fff;
+    }
+
+    .weightValue{
+        font-size: 18px;
+        font-weight: bold;
     }
 
     .TempContainer{
@@ -209,10 +247,10 @@
     flex-direction: column;
     }
 
-    .titreTemp{
+    .addDataTemp{
         display: flex;
+        flex-direction: column;
     }
-
 
     .CareContainer{
     background-color: white;
@@ -223,11 +261,15 @@
     display: flex;
     flex-direction: column;
     }
-    
-    .titreCare{
+
+    .addDataCare{
+        margin-top: 20px;
         display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        padding-left: 30%;
     }
-    
+
     .button{
         background-color: rgba(50, 115, 140, 1);
         font-size: 18px;
