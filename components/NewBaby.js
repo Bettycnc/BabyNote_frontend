@@ -17,16 +17,13 @@ const NewBaby = () => {
   const [babyName, setBabyName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [weight, setWeight] = useState("");
-<<<<<<< HEAD
   const [babyName2, setBabyName2] = useState("");
   const [birthday2, setBirthday2] = useState("");
   const [weight2, setWeight2] = useState("");
   const [displayCtaAddChild, setDisplayCtaAddChild] = useState(true);
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
-  const user = useSelector((state) => state.user.value);
-  const addPhoto = () => {};
-=======
+  
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
@@ -36,7 +33,6 @@ const NewBaby = () => {
   };
   const addBabies = () => {
     console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
->>>>>>> ajouterPhotoFront
 
   console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
   console.log(
@@ -253,10 +249,8 @@ const NewBaby = () => {
           Ajouter une photo
         </button>
       </div>
-<<<<<<< HEAD
       {baby2}
       {ctaAddChild}
-=======
     {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
   open={isModalPhotoVisible}
@@ -281,12 +275,11 @@ const NewBaby = () => {
 
 
       <p> + ajouter un enfant</p>
->>>>>>> ajouterPhotoFront
       <button className={styles.button} onClick={() => addBabies()}>
         Valider
       </button>
     </div>
   );
-};
+};}
 
 export default NewBaby;
