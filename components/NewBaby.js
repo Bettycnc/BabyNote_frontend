@@ -15,22 +15,59 @@ const NewBaby = () => {
   const [babyName, setBabyName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [weight, setWeight] = useState("");
+  const [babyName2, setBabyName2] = useState("");
+  const [birthday2, setBirthday2] = useState("");
+  const [weight2, setWeight2] = useState("");
+  const [displayCtaAddChild, setDisplayCtaAddChild] = useState(true);
+  const [displayBaby2, setDisplayBaby2] = useState(false);
 
   const user = useSelector((state) => state.user.value);
-
   const addPhoto = () => {};
-  const addBabies = () => {
-    console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
 
-    fetch("http://localhost:3000/baby", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+  console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
+  console.log(
+    "prénom2 : ",
+    babyName2,
+    "date2: ",
+    birthday2,
+    " poids2 : ",
+    weight2
+  );
+
+  const ctaAddChild = "";
+
+  if (displayCtaAddChild) {
+    ctaAddChild = (
+      <button className={styles.delete} onClick={() => addChild()}>
+        {" "}
+        + ajouter un enfant
+      </button>
+    );
+  } else {
+    ctaAddChild = "";
+  }
+
+  //requete vers le Backend pour créer UN bébé dans BDD
+  const addBabies = () => {
+    const arrDataBaby = [
+      {
         name: babyName,
         birthday,
         birthWeight: weight,
         user_id: user._id,
-      }),
+      },
+      {
+        name: babyName2,
+        birthday: birthday2,
+        birthWeight: weight2,
+        user_id: user._id,
+      },
+    ];
+
+    fetch("http://localhost:3000/baby/babies", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(arrDataBaby),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -43,6 +80,123 @@ const NewBaby = () => {
         }
       });
   };
+
+  const addChild = () => {
+    setDisplayBaby2(true);
+    setDisplayCtaAddChild(false);
+  };
+  // supression de la card de 2e bébé
+  const deleteChild = () => {
+    //supression de la card du 2e bébé
+    setDisplayBaby2(false);
+    //affichage du btn ajouter un enfant
+    setDisplayCtaAddChild(true);
+  };
+
+  const baby2 = "";
+
+  if (!displayBaby2) {
+    baby2 = "";
+  } else {
+    baby2 = (
+      <div className={styles.card}>
+        <div className={styles.containerTitleInput}>
+          <div className={styles.headerCard}>
+            <p className={styles.h4}>Mon 2e bébé</p>
+            <button className={styles.delete} onClick={() => deleteChild()}>
+              X
+            </button>
+          </div>
+          <p className={styles.error}>{error}</p>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Prénom*"
+            id="BabyName2"
+            onChange={(e) => setBabyName2(e.target.value)}
+            value={babyName2}
+          />
+          <input
+            type="number"
+            max="9999"
+            className={styles.input}
+            placeholder="Poids de naissance (g)*"
+            id="weight2"
+            onChange={(e) => setWeight2(e.target.value)}
+            value={weight2}
+          />
+          {/* selecteur de date */}
+          <LocalizationProvider
+            localeText={
+              frFR.components.MuiLocalizationProvider.defaultProps.localeText
+            }
+            dateAdapter={AdapterMoment}
+          >
+            <DatePicker
+              onChange={(value) => setBirthday2(value)}
+              className={styles.date}
+              label="Date de naissance"
+            />
+          </LocalizationProvider>
+        </div>
+        <button className={styles.button} onClick={() => addPhoto()}>
+          Ajouter une photo
+        </button>
+      </div>
+    );
+  }
+
+  // // ajout d'une 2e card bébé
+  // const addChild = () => {
+  //   //suppression du btn ajouter un enfant
+  //   setCtaNewChild("");
+  //   setChild(
+  //     <div className={styles.card}>
+  //       <div className={styles.containerTitleInput}>
+  //         <div className={styles.headerCard}>
+  //           <p className={styles.h4}>Mon 2e bébé</p>
+  //           <button className={styles.delete} onClick={() => deleteChild()}>
+  //             X
+  //           </button>
+  //         </div>
+  //         <p className={styles.error}>{error}</p>
+  //         <input
+  //           type="text"
+  //           className={styles.input}
+  //           placeholder="Prénom*"
+  //           id="BabyName2"
+  //           onChange={(e) => setBabyName2(e.target.value)}
+  //           value={babyName2}
+  //         />
+  //         <input
+  //           type="number"
+  //           max="9999"
+  //           className={styles.input}
+  //           placeholder="Poids de naissance (g)*"
+  //           id="weight2"
+  //           onChange={(e) => setWeight2(e.target.value)}
+  //           value={weight2}
+  //         />
+  //         {/* selecteur de date */}
+  //         <LocalizationProvider
+  //           localeText={
+  //             frFR.components.MuiLocalizationProvider.defaultProps.localeText
+  //           }
+  //           dateAdapter={AdapterMoment}
+  //         >
+  //           <DatePicker
+  //             onChange={(value) => setBirthday2(value)}
+  //             className={styles.date}
+  //             label="Date de naissance"
+  //           />
+  //         </LocalizationProvider>
+  //       </div>
+  //       <button className={styles.button} onClick={() => addPhoto()}>
+  //         Ajouter une photo
+  //       </button>
+  //     </div>
+  //   );
+  // };
 
   return (
     <div className={styles.container}>
@@ -60,7 +214,6 @@ const NewBaby = () => {
           />
           <input
             type="number"
-            // min="1000"
             max="9999"
             className={styles.input}
             placeholder="Poids de naissance (g)*"
@@ -81,20 +234,13 @@ const NewBaby = () => {
               label="Date de naissance"
             />
           </LocalizationProvider>
-          {/* <input
-            type="text"
-            className={styles.input}
-            placeholder="Date de naissance*"
-            id="birthday"
-            onChange={(e) => setBirthday(e.target.value)}
-            value={birthday}
-          /> */}
         </div>
         <button className={styles.button} onClick={() => addPhoto()}>
           Ajouter une photo
         </button>
       </div>
-      <p> + ajouter un enfant</p>
+      {baby2}
+      {ctaAddChild}
       <button className={styles.button} onClick={() => addBabies()}>
         Valider
       </button>

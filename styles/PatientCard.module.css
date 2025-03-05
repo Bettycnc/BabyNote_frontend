@@ -1,0 +1,13 @@
+@media (max-width: 768px) {
+    .card {
+        height: 80px; 
+        width: 100%;
+        background-color: #ffffff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px  rgba(0, 0, 0, 0.2);
+    }
+}

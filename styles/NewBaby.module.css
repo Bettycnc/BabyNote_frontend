@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
   background-color: #e6e6e6;
 }
@@ -22,6 +22,17 @@
   background-position: center;
   background-repeat: no-repeat;
   padding: 20px;
+  margin-bottom: 10px;
+}
+
+.headerCard {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.delete {
+  background-color: transparent;
+  border: 0px;
 }
 
 .overlay {
@@ -108,7 +119,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    height: 100vh;
+    /* min-height: 100vh; */
     width: 100vw;
     padding: 20px;
 

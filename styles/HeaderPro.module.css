@@ -1,0 +1,31 @@
+@media (max-width: 768px) {
+    .container {
+        height: 100vh; 
+        width: 100%;
+        background-color: #f3f3f3;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+
+    }
+    
+    .header{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    
+    .BurgerMenu{
+        height: 30px;
+    }
+    
+    
+    .h3{
+        font-size: 22px;
+        font-weight: 500;
+    }
+    .h4{
+        font-size: 20px;
+        font-weight: 200;
+    }
+}

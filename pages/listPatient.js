@@ -1,7 +1,7 @@
-import Patient from "../components/Patient";
+import AllPatient from "../components/AllPatient";
 
 function List() {
-  return <Patient />;
+  return <AllPatient />;
 }
 
 export default List;
