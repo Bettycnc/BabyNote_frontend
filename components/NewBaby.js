@@ -7,6 +7,8 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { frFR } from "@mui/x-date-pickers/locales";
+// import Modal from '@mui/material/Modal';
+import { Box, Modal } from "@mui/material";
 //import date en français
 import "moment/locale/fr";
 
@@ -15,10 +17,13 @@ const NewBaby = () => {
   const [babyName, setBabyName] = useState("");
   const [birthday, setBirthday] = useState("");
   const [weight, setWeight] = useState("");
+  const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
 
-  const addPhoto = () => {};
+  const addPhoto = () => {
+    setIsModalPhotoVisible(!isModalPhotoVisible)
+  };
   const addBabies = () => {
     console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
 
@@ -94,6 +99,29 @@ const NewBaby = () => {
           Ajouter une photo
         </button>
       </div>
+    {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
+      <Modal
+  open={isModalPhotoVisible}
+  onClose={!isModalPhotoVisible}
+  aria-labelledby="modal-modal-title"
+  aria-describedby="modal-modal-description"
+>
+  <Box 
+  sx={{width: 100, height: 100}}
+  >
+    <button onClick={()=>addPhoto()}>X</button>
+    <button 
+    //onClick={CameraCapture}
+    >
+    Prendre une photo
+    </button>
+    <button>
+    Ajouter depuis la galerie
+    </button>
+  </Box>
+</Modal>
+
+
       <p> + ajouter un enfant</p>
       <button className={styles.button} onClick={() => addBabies()}>
         Valider
