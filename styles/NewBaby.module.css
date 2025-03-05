@@ -152,3 +152,9 @@
   width: 100%;
   border-radius: 20px;
 }
+
+.btnCloseModal{
+background-color: black;
+color: rgb(196, 25, 82);
+
+}
