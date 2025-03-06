@@ -23,24 +23,13 @@ const NewBaby = () => {
   const [displayCtaAddChild, setDisplayCtaAddChild] = useState(true);
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
-  
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
 
   const addPhoto = () => {
-    setIsModalPhotoVisible(!isModalPhotoVisible)
+    setIsModalPhotoVisible(!isModalPhotoVisible);
   };
-
-  console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
-  console.log(
-    "prénom2 : ",
-    babyName2,
-    "date2: ",
-    birthday2,
-    " poids2 : ",
-    weight2
-  );
 
   const ctaAddChild = "";
 
@@ -55,38 +44,61 @@ const NewBaby = () => {
     ctaAddChild = "";
   }
 
-  //requete vers le Backend pour créer UN bébé dans BDD
+  //requete vers le Backend pour créer UN ou plusieurs bébé bébé dans BDD
   const addBabies = () => {
-    const arrDataBaby = [
-      {
-        name: babyName,
-        birthday,
-        birthWeight: weight,
-        user_id: user._id,
-      },
-      {
-        name: babyName2,
-        birthday: birthday2,
-        birthWeight: weight2,
-        user_id: user._id,
-      },
-    ];
+    if (displayBaby2) {
+      const arrDataBaby = [
+        {
+          name: babyName,
+          birthday,
+          birthWeight: weight,
+          user_id: user._id,
+        },
+        {
+          name: babyName2,
+          birthday: birthday2,
+          birthWeight: weight2,
+          user_id: user._id,
+        },
+      ];
 
-    fetch("http://localhost:3000/baby/babies", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(arrDataBaby),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("click", data);
-        if (!data.result) {
-          setError(data.error);
-        } else {
-          setError("");
-          console.log("changement de page");
-        }
-      });
+      fetch("http://localhost:3000/baby/babies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(arrDataBaby),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("click", data);
+          if (!data.result) {
+            setError(data.error);
+          } else {
+            setError("");
+            console.log("changement de page");
+          }
+        });
+    } else {
+      fetch("http://localhost:3000/baby", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: babyName,
+          birthday,
+          birthWeight: weight,
+          user_id: user._id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("click", data);
+          if (!data.result) {
+            setError(data.error);
+          } else {
+            setError("");
+            console.log("changement de page");
+          }
+        });
+    }
   };
 
   const addChild = () => {
@@ -115,7 +127,6 @@ const NewBaby = () => {
               X
             </button>
           </div>
-          <p className={styles.error}>{error}</p>
           <input
             type="text"
             className={styles.input}
@@ -153,58 +164,6 @@ const NewBaby = () => {
       </div>
     );
   }
-
-  // // ajout d'une 2e card bébé
-  // const addChild = () => {
-  //   //suppression du btn ajouter un enfant
-  //   setCtaNewChild("");
-  //   setChild(
-  //     <div className={styles.card}>
-  //       <div className={styles.containerTitleInput}>
-  //         <div className={styles.headerCard}>
-  //           <p className={styles.h4}>Mon 2e bébé</p>
-  //           <button className={styles.delete} onClick={() => deleteChild()}>
-  //             X
-  //           </button>
-  //         </div>
-  //         <p className={styles.error}>{error}</p>
-  //         <input
-  //           type="text"
-  //           className={styles.input}
-  //           placeholder="Prénom*"
-  //           id="BabyName2"
-  //           onChange={(e) => setBabyName2(e.target.value)}
-  //           value={babyName2}
-  //         />
-  //         <input
-  //           type="number"
-  //           max="9999"
-  //           className={styles.input}
-  //           placeholder="Poids de naissance (g)*"
-  //           id="weight2"
-  //           onChange={(e) => setWeight2(e.target.value)}
-  //           value={weight2}
-  //         />
-  //         {/* selecteur de date */}
-  //         <LocalizationProvider
-  //           localeText={
-  //             frFR.components.MuiLocalizationProvider.defaultProps.localeText
-  //           }
-  //           dateAdapter={AdapterMoment}
-  //         >
-  //           <DatePicker
-  //             onChange={(value) => setBirthday2(value)}
-  //             className={styles.date}
-  //             label="Date de naissance"
-  //           />
-  //         </LocalizationProvider>
-  //       </div>
-  //       <button className={styles.button} onClick={() => addPhoto()}>
-  //         Ajouter une photo
-  //       </button>
-  //     </div>
-  //   );
-  // };
 
   return (
     <div className={styles.container}>
@@ -249,7 +208,7 @@ const NewBaby = () => {
       </div>
       {baby2}
       {ctaAddChild}
-    {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
+      {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé
       <Modal
   open={isModalPhotoVisible}
   onClose={!isModalPhotoVisible}
@@ -269,10 +228,8 @@ const NewBaby = () => {
     Ajouter depuis la galerie
     </button>
   </Box>
-</Modal>
+</Modal> */}
 
-
-      <p> + ajouter un enfant</p>
       <button className={styles.button} onClick={() => addBabies()}>
         Valider
       </button>
