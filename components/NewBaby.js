@@ -25,16 +25,14 @@ const NewBaby = () => {
   const [displayCtaAddChild, setDisplayCtaAddChild] = useState(true);
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
-  
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch()
 
   const addPhoto = () => {
-    setIsModalPhotoVisible(!isModalPhotoVisible)
+    setIsModalPhotoVisible(!isModalPhotoVisible);
   };
-
 
   const ctaAddChild = "";
 
@@ -49,7 +47,7 @@ const NewBaby = () => {
     ctaAddChild = "";
   }
 
-  //requete vers le Backend pour créer UN bébé dans BDD
+  //requete vers le Backend pour créer UN ou plusieurs bébé bébé dans BDD
   const addBabies = () => {
     if (displayBaby2) {
       const arrDataBaby = [
@@ -95,15 +93,7 @@ const NewBaby = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          const name= data.baby.name;
-          const _id= data.baby._id;
-
-          dispatch(setBabies([{
-            name: name,
-            _id: _id
-          }]))
-
-          console.log(name, _id);
+          console.log("click", data);
           if (!data.result) {
             setError(data.error);
           } else {
@@ -114,57 +104,69 @@ const NewBaby = () => {
     }
   };
 
-  // // ajout d'une 2e card bébé
-  // const addChild = () => {
-  //   //suppression du btn ajouter un enfant
-  //   setCtaNewChild("");
-  //   setChild(
-  //     <div className={styles.card}>
-  //       <div className={styles.containerTitleInput}>
-  //         <div className={styles.headerCard}>
-  //           <p className={styles.h4}>Mon 2e bébé</p>
-  //           <button className={styles.delete} onClick={() => deleteChild()}>
-  //             X
-  //           </button>
-  //         </div>
-  //         <p className={styles.error}>{error}</p>
-  //         <input
-  //           type="text"
-  //           className={styles.input}
-  //           placeholder="Prénom*"
-  //           id="BabyName2"
-  //           onChange={(e) => setBabyName2(e.target.value)}
-  //           value={babyName2}
-  //         />
-  //         <input
-  //           type="number"
-  //           max="9999"
-  //           className={styles.input}
-  //           placeholder="Poids de naissance (g)*"
-  //           id="weight2"
-  //           onChange={(e) => setWeight2(e.target.value)}
-  //           value={weight2}
-  //         />
-  //         {/* selecteur de date */}
-  //         <LocalizationProvider
-  //           localeText={
-  //             frFR.components.MuiLocalizationProvider.defaultProps.localeText
-  //           }
-  //           dateAdapter={AdapterMoment}
-  //         >
-  //           <DatePicker
-  //             onChange={(value) => setBirthday2(value)}
-  //             className={styles.date}
-  //             label="Date de naissance"
-  //           />
-  //         </LocalizationProvider>
-  //       </div>
-  //       <button className={styles.button} onClick={() => addPhoto()}>
-  //         Ajouter une photo
-  //       </button>
-  //     </div>
-  //   );
-  // };
+  const addChild = () => {
+    setDisplayBaby2(true);
+    setDisplayCtaAddChild(false);
+  };
+  // supression de la card de 2e bébé
+  const deleteChild = () => {
+    //supression de la card du 2e bébé
+    setDisplayBaby2(false);
+    //affichage du btn ajouter un enfant
+    setDisplayCtaAddChild(true);
+  };
+
+  const baby2 = "";
+
+  if (!displayBaby2) {
+    baby2 = "";
+  } else {
+    baby2 = (
+      <div className={styles.card}>
+        <div className={styles.containerTitleInput}>
+          <div className={styles.headerCard}>
+            <p className={styles.h4}>Mon 2e bébé</p>
+            <button className={styles.delete} onClick={() => deleteChild()}>
+              X
+            </button>
+          </div>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Prénom*"
+            id="BabyName2"
+            onChange={(e) => setBabyName2(e.target.value)}
+            value={babyName2}
+          />
+          <input
+            type="number"
+            max="9999"
+            className={styles.input}
+            placeholder="Poids de naissance (g)*"
+            id="weight2"
+            onChange={(e) => setWeight2(e.target.value)}
+            value={weight2}
+          />
+          {/* selecteur de date */}
+          <LocalizationProvider
+            localeText={
+              frFR.components.MuiLocalizationProvider.defaultProps.localeText
+            }
+            dateAdapter={AdapterMoment}
+          >
+            <DatePicker
+              onChange={(value) => setBirthday2(value)}
+              className={styles.date}
+              label="Date de naissance"
+            />
+          </LocalizationProvider>
+        </div>
+        <button className={styles.button} onClick={() => addPhoto()}>
+          Ajouter une photo
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.container}>
@@ -208,35 +210,27 @@ const NewBaby = () => {
         </button>
       </div>
       {ctaAddChild}
-    {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
+      {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
-  open={isModalPhotoVisible}
-  onClose={!isModalPhotoVisible}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-  <Box 
-  sx={{width: 100, height: 100}}
-  >
-    <button onClick={()=>addPhoto()}>X</button>
-    <button 
-    //onClick={CameraCapture}
-    >
-    Prendre une photo
-    </button>
-    <button>
-    Ajouter depuis la galerie
-    </button>
-  </Box>
-</Modal>
+        open={isModalPhotoVisible}
+        onClose={!isModalPhotoVisible}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ width: 100, height: 100 }}>
+          <button onClick={() => addPhoto()}>X</button>
+          <button
+          //onClick={CameraCapture}
+          >
+            Prendre une photo
+          </button>
+          <button>Ajouter depuis la galerie</button>
+        </Box>
+      </Modal>
 
-
-      <p> + ajouter un enfant</p>
-      <Link href={"/babyTab"}>
-        <button className={styles.button} onClick={() => addBabies()}>
-          Valider
-        </button>
-      </Link>
+      <button className={styles.button} onClick={() => addBabies()}>
+        Valider
+      </button>
     </div>
   );
 };

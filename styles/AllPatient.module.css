@@ -8,4 +8,7 @@
         flex-direction: column;
         padding: 20px
     }
+    .cardContainer {
+        overflow-y: scroll;
+    }
 }
