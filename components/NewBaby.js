@@ -57,102 +57,60 @@ const NewBaby = () => {
 
   //requete vers le Backend pour créer UN bébé dans BDD
   const addBabies = () => {
-    const arrDataBaby = [
-      {
-        name: babyName,
-        birthday,
-        birthWeight: weight,
-        user_id: user._id,
-      },
-      {
-        name: babyName2,
-        birthday: birthday2,
-        birthWeight: weight2,
-        user_id: user._id,
-      },
-    ];
+    if (displayBaby2) {
+      const arrDataBaby = [
+        {
+          name: babyName,
+          birthday,
+          birthWeight: weight,
+          user_id: user._id,
+        },
+        {
+          name: babyName2,
+          birthday: birthday2,
+          birthWeight: weight2,
+          user_id: user._id,
+        },
+      ];
 
-    fetch("http://localhost:3000/baby/babies", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(arrDataBaby),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("click", data);
-        if (!data.result) {
-          setError(data.error);
-        } else {
-          setError("");
-          console.log("changement de page");
-        }
-      });
+      fetch("http://localhost:3000/baby/babies", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(arrDataBaby),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("click", data);
+          if (!data.result) {
+            setError(data.error);
+          } else {
+            setError("");
+            console.log("changement de page");
+          }
+        });
+    } else {
+      fetch("http://localhost:3000/baby", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: babyName,
+          birthday,
+          birthWeight: weight,
+          user_id: user._id,
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("click", data);
+          if (!data.result) {
+            setError(data.error);
+          } else {
+            setError("");
+            console.log("changement de page");
+          }
+        });
+    }
   };
-
-  const addChild = () => {
-    setDisplayBaby2(true);
-    setDisplayCtaAddChild(false);
-  };
-  // supression de la card de 2e bébé
-  const deleteChild = () => {
-    //supression de la card du 2e bébé
-    setDisplayBaby2(false);
-    //affichage du btn ajouter un enfant
-    setDisplayCtaAddChild(true);
-  };
-
-  const baby2 = "";
-
-  if (!displayBaby2) {
-    baby2 = "";
-  } else {
-    baby2 = (
-      <div className={styles.card}>
-        <div className={styles.containerTitleInput}>
-          <div className={styles.headerCard}>
-            <p className={styles.h4}>Mon 2e bébé</p>
-            <button className={styles.delete} onClick={() => deleteChild()}>
-              X
-            </button>
-          </div>
-          <p className={styles.error}>{error}</p>
-          <input
-            type="text"
-            className={styles.input}
-            placeholder="Prénom*"
-            id="BabyName2"
-            onChange={(e) => setBabyName2(e.target.value)}
-            value={babyName2}
-          />
-          <input
-            type="number"
-            max="9999"
-            className={styles.input}
-            placeholder="Poids de naissance (g)*"
-            id="weight2"
-            onChange={(e) => setWeight2(e.target.value)}
-            value={weight2}
-          />
-          {/* selecteur de date */}
-          <LocalizationProvider
-            localeText={
-              frFR.components.MuiLocalizationProvider.defaultProps.localeText
-            }
-            dateAdapter={AdapterMoment}
-          >
-            <DatePicker
-              onChange={(value) => setBirthday2(value)}
-              className={styles.date}
-              label="Date de naissance"
-            />
-          </LocalizationProvider>
-        </div>
-        <button className={styles.button} onClick={() => addPhoto()}>
-          Ajouter une photo
-        </button>
-      </div>
-    );
-  }
 
   // // ajout d'une 2e card bébé
   // const addChild = () => {
