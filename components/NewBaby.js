@@ -31,8 +31,6 @@ const NewBaby = () => {
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible)
   };
-  const addBabies = () => {
-    console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
 
   console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
   console.log(
@@ -280,6 +278,6 @@ const NewBaby = () => {
       </button>
     </div>
   );
-};}
+};
 
 export default NewBaby;
