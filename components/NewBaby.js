@@ -9,6 +9,8 @@ import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import { frFR } from "@mui/x-date-pickers/locales";
 // import Modal from '@mui/material/Modal';
 import { Box, Modal } from "@mui/material";
+import Link from "next/link";
+import { setBabies } from "../reducers/user";
 //import date en français
 import "moment/locale/fr";
 
@@ -27,20 +29,12 @@ const NewBaby = () => {
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
+  const dispatch = useDispatch()
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible)
   };
 
-  console.log("prénom : ", babyName, "date: ", birthday, " poids : ", weight);
-  console.log(
-    "prénom2 : ",
-    babyName2,
-    "date2: ",
-    birthday2,
-    " poids2 : ",
-    weight2
-  );
 
   const ctaAddChild = "";
 
@@ -101,7 +95,15 @@ const NewBaby = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("click", data);
+          const name= data.baby.name;
+          const _id= data.baby._id;
+
+          dispatch(setBabies([{
+            name: name,
+            _id: _id
+          }]))
+
+          console.log(name, _id);
           if (!data.result) {
             setError(data.error);
           } else {
@@ -205,7 +207,6 @@ const NewBaby = () => {
           Ajouter une photo
         </button>
       </div>
-      {baby2}
       {ctaAddChild}
     {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
@@ -231,9 +232,11 @@ const NewBaby = () => {
 
 
       <p> + ajouter un enfant</p>
-      <button className={styles.button} onClick={() => addBabies()}>
-        Valider
-      </button>
+      <Link href={"/babyTab"}>
+        <button className={styles.button} onClick={() => addBabies()}>
+          Valider
+        </button>
+      </Link>
     </div>
   );
 };

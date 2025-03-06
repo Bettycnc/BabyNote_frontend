@@ -3,26 +3,41 @@ import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import moment from "moment";
 import Link from "next/link";
+import {useSelector } from "react-redux";
+import {useRouter} from "next/router"
 
 
 const BabyPage = () => {
     const [baby, setBaby] = useState(null);
+    const user = useSelector((state) => state.user.value);
+    const router = useRouter()
+    console.log(router.query)
+
+    const [refresh, setRefresh] = useState(false)
+
+    // if(router.query.refresh){
+    //     router.query.refresh = false
+    //     console.log('coucou')
+    //     setRefresh(!refresh)
+    // }
 
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/67c585260e52c1fcadd1a066`)
+        console.log('cocucou')
+        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
             });
-    }, []); 
+    }, [refresh]); 
+
 
     if (!baby) {
         return <p>Chargement...</p>;
     }
 
-
 //DONNEES POUR POIDS 
     const birthWeight = baby.birthWeight;
+
     const weights = baby.weight_id; // Liste des objets poids
 
     // Récupérer le dernier poids enregistré
@@ -30,11 +45,12 @@ const BabyPage = () => {
     const lastWeight = lastWeightObj ? lastWeightObj.weight : null;
 
     // Calcul de la variation de poids entre le poids de naissance et le dernier poids enregistré donc le poids.length -1 du dessus
-    const variation = lastWeight
+    const variationCalcul = birthWeight - lastWeight
+    const variationNeg = variationCalcul > 0 ? true : false
+
+    const variation = variationNeg
         ? ((birthWeight - lastWeight) / birthWeight) * 100
-        : null;
-    
-    const variationNeg = lastWeight - birthWeight ? true : false;
+        : ((lastWeight - birthWeight) / birthWeight) * 100;
 
     // Données pour le graphique
     const chartData = lastWeight ? [
@@ -51,14 +67,14 @@ const BabyPage = () => {
     const sortedDataElim = [...dataElim].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // Récupérer la dernière entrée
-    const lastEntryElim = sortedDataElim[0];
-    const formatedDateElim = moment(lastEntryElim.date).format("HH:mm")
+    const lastEntryElim = dataElim.length >0 ? sortedDataElim[0] : null;
+    const formatedDateElim = lastEntryElim ? moment(lastEntryElim.date).format("HH:mm") : null;
 
     // Filtrer les valeurs à afficher, si urine=true alors on affiche Urines et si gambling=true alors on affiche Selles
-    const displayedFieldsElim = Object.entries(lastEntryElim)
+    const displayedFieldsElim = lastEntryElim ? Object.entries(lastEntryElim)
     .filter(([key, value]) => (key === "urine" || key === "gambling") && value)
     .map(([key]) => key === "urine" ? "Urines" : "Selles")
-    .join(" & ");
+    .join(" & ") : null;
 
 //DONNEES POUR TEMPERATURE
     const dataTemp = baby.temperature_id
@@ -67,8 +83,9 @@ const BabyPage = () => {
     const sortedDataTemp = [...dataTemp].sort((a, b) => new Date(b.date) - new Date(a.date));
 
     // Récupérer la dernière entrée et mettre la date au bon forma
-    const lastEntryTemp = sortedDataTemp[0];
-    const formatedDateTemp = moment(lastEntryTemp.date).format("HH:mm")
+    const lastEntryTemp = baby.temperature_id.length > 0 ? sortedDataTemp[0] : null;
+
+    const formatedDateTemp = lastEntryTemp ? moment(lastEntryTemp.date).format("HH:mm") : null;
 
 //DONNEES POUR BAIN
     // Trouver le dernier bain donné (bath: true)
@@ -76,15 +93,17 @@ const BabyPage = () => {
     .filter(care => care.bath) // Ne garder que les entrées où bath=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateBath = moment(lastBath.date).format("HH:mm")
+    const formatedDateBath = lastBath ? moment(lastBath.date).format("HH:mm") : 'Aucune donnée'
 
 //DONNEES POUR Visage
     // Trouver le dernier bain donné (bath: true)
     const lastCareFace = baby.care_id
     .filter(care => care.faceCare) // Ne garder que les entrées où faceCare=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
-    
-    const formatedDateCareFace = moment(lastCareFace.date).format("HH:mm")
+
+
+    const formatedDateCareFace = lastCareFace ? moment(lastCareFace.date).format("HH:mm") : 'Aucune donnée';
+
     
 //DONNEES POUR CORDON
     // Trouver le dernier bain donné (bath: true)
@@ -92,21 +111,37 @@ const BabyPage = () => {
     .filter(care => care.cordCare) // Ne garder que les entrées où cordCare=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateCareCord = moment(lastCareCord.date).format("HH:mm")
+    const formatedDateCareCord = lastCareCord ? moment(lastCareCord.date).format("HH:mm"): 'Aucune donnée';
 
 //DONNEES POUR ALIMENTATION
-    const dataAlim = baby.alimentation_id
+const dataAlim = baby.alimentation_id;
+let lastFeeding = {};
 
-    // Trier les données par date décroissante (du plus récent au plus ancien)
-    const sortedDataAlim = [...dataAlim].sort((a, b) => new Date(b.date) - new Date(a.date))[0];
-    const formatedDateAlim = moment(sortedDataAlim.date).format("HH:mm")
-    let lastFeeding = {}
+// Vérifier si les données existent et trier par date décroissante
+const sortedDataAlim = dataAlim.length > 0 ? [...dataAlim].sort((a, b) => new Date(b.date) - new Date(a.date))[0] : null;
 
-    if(sortedDataAlim.breastFeeding?.length > 0) {
-        lastFeeding = {duration: sortedDataAlim.breastFeeding[0].duration, breast: sortedDataAlim.breastFeeding[0].breast, foodSupplement: sortedDataAlim.breastFeeding[0].foodSupplement, date:formatedDateAlim}
-    } else {
-        lastFeeding = {amount: sortedDataAlim.feedingBottle[0].amount, date: formatedDateAlim}
+// Initialiser la date formatée
+const formatedDateAlim = sortedDataAlim ? moment(sortedDataAlim.date).format("HH:mm") : 'Aucune donnée';
+
+// Si `sortedDataAlim` est null (aucune donnée), pas besoin de continuer
+if (!sortedDataAlim) {
+    lastFeeding = { date: formatedDateAlim };
+} else {
+    // Vérifier que sortedDataAlim a bien les propriétés attendues
+    const breathfeeding = sortedDataAlim.breastFeeding;
+    const feedingBottle = sortedDataAlim.feedingBottle;
+
+    if (breathfeeding && breathfeeding.length > 0) {
+        lastFeeding = {
+            duration: breathfeeding[0].duration,
+            breast: breathfeeding[0].breast,
+            foodSupplement: breathfeeding[0].foodSupplement,
+            date: formatedDateAlim
+        };
+    } else if (feedingBottle && feedingBottle.length > 0) {
+        lastFeeding = { amount: feedingBottle[0].amount, date: formatedDateAlim };
     }
+}
 
 
     return (
@@ -114,16 +149,16 @@ const BabyPage = () => {
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" />
-                <p className={styles.babyName}>{baby.name}</p>
+                <p className={styles.babyName}>{user.babies[0].name}</p>
                 <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
             </div>
 
             {/* Données */}
             <div className={styles.data}>
 
-                {/* poids */}
-                <div className={styles.weigthContainer}>
-                    {lastWeight ? (
+                {/* poids */} 
+                {lastWeight ? (
+                    <div className={styles.weigthContainer}>
                         <div className={styles.weightCard}>
                             <div className={styles.chartContainer}>
                             <PieChart width={120} height={120}>
@@ -150,51 +185,58 @@ const BabyPage = () => {
                                         <p>Variation du poids depuis la naissance :</p>
                                          <div className={styles.variationVal}>
                                             <img className={styles.flecheBas} src='/flecheVariationBas.svg'></img>
-                                            <p className={styles.variationText}>- {variation.toFixed(1)}% </p>
+                                            <p className={styles.variationText}>{variation.toFixed(1)}% </p>
                                         </div>
                                     </div>
                                 ) : (
                                     <div className={styles.weightInfo}>
                                         <p>Variation du poids depuis la naissance :</p>
-                                        <div>
-                                            <img src='/flecheVariationHaut'></img>
-                                            <p className={styles.smallWeight}>+ {variation.toFixed(1)}% </p>
+                                        <div className={styles.variationVal}>
+                                            <img className={styles.flecheBas} src='/flecheVariationHaut.svg'></img>
+                                            <p className={styles.variationText}>+ {variation.toFixed(1)}% </p>
                                         </div>
                                     </div>
                                 )}
                         </div>
+                        <Link href={"/weight"}>
+                            <button className={styles.detailButton}>
+                                <p>Voir le détail</p>
+                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                            </button>
+                        </Link>    
+                    </div>
                     ) : (
-                        <p className={styles.noData}>Aucune donnée de poids enregistrée</p>
+                        <div className={styles.weigthContainer}>
+                            <p className={styles.noData}>Aucune donnée de poids enregistrée</p>
+                        </div>
                     )}
-                    <Link href={"/weight"}>
-                        <button className={styles.detailButton}>
-                            <p>Voir le détail</p>
-                            <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
-                    </Link>    
-                </div>
-
                 <div className={styles.sousContainer}>
 
                     {/* alimentation */}
                     <div className={styles.alimContainer}>
-                        {sortedDataAlim.breastFeeding?.length > 0 ? (
+                        {sortedDataAlim !== null ? (
                             <div>
-                                <img className={styles.logoAlim} src='/allaitement.svg'></img>
-                                <p>{lastFeeding.date}</p>
-                                <p className={styles.textBold}>{lastFeeding.duration} min</p>
-                                    {lastFeeding.foodSupplement.foodSupplementPresent !== true ? (
-                                        <p>Complément : Oui</p>
-                                    ) : (
-                                        <p>Complément : Non</p>
-                                    )}
+                            {sortedDataAlim.breastFeeding ?.length > 0 ? (
+                                <div>
+                                    <img className={styles.logoAlim} src='/allaitement.svg'></img>
+                                    <p>{lastFeeding.date}</p>
+                                    <p className={styles.textBold}>{lastFeeding.duration} min</p>
+                                        {lastFeeding.foodSupplement.foodSupplementPresent !== true ? (
+                                            <p>Complément : Oui</p>
+                                        ) : (
+                                            <p>Complément : Non</p>
+                                        )}
+                                </div>
+                            ) : (
+                                <div>
+                                    <img className={styles.logoAlim} src='/Biberon.svg' ></img>
+                                     <p>{lastFeeding.date}</p>
+                                     <p className={styles.textBold}>{lastFeeding.amount} mL</p>
+                                </div>
+                            )}
                             </div>
                         ) : (
-                            <div>
-                                <img className={styles.logoAlim} src='/Biberon.svg' ></img>
-                                 <p>{lastFeeding.date}</p>
-                                 <p className={styles.textBold}>{lastFeeding.amount} mL</p>
-                            </div>
+                            <p className={styles.alimDataNull} >Aucune données a afficher</p>
                         )}
                         <Link href={"/alimentation"}>
                             <button className={styles.detailButton}>
@@ -208,7 +250,7 @@ const BabyPage = () => {
                     <div className={styles.elimContainer}>
                         <img className={styles.logoElim} src='/couche.svg'></img>
                         <p>{formatedDateElim}</p>
-                        <p className={styles.textBold} >{displayedFieldsElim.length > 0 ? displayedFieldsElim : "Aucune donnée disponible"}</p>
+                        <p className={styles.textBold} >{displayedFieldsElim !== null ? displayedFieldsElim : "Aucune donnée disponible"}</p>
                         <Link href={"/elimination"}>
                             <button className={styles.detailButton}>
                                 <p>Voir le détail</p>
@@ -223,8 +265,9 @@ const BabyPage = () => {
                     <div className={styles.tempChart}>
                         <img className={styles.logoTemp} src='/temperature.svg'></img>
                         <div className={styles.tempData}>
-                            <p className={styles.textBold} >{lastEntryTemp !== null ? 
-                            `${lastEntryTemp.temperature}°C` : "Aucune donnée disponible"}</p>
+                            <p className={styles.textBold} >
+                                {lastEntryTemp !== null ? 
+                            `${lastEntryTemp.temperature} °C` : "Aucune donnée disponible"}</p>
                             <p>{formatedDateTemp}</p>
                         </div>
                     </div>

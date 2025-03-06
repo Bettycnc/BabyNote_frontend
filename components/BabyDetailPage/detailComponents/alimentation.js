@@ -1,4 +1,4 @@
-import styles from '../../../styles/styles_detailPage/Alimentation.module.css'
+import styles from '../../../styles/styles_detailPage/composantDetail.module.css'
 
 
 function Alimentation(props) {
@@ -11,19 +11,19 @@ function Alimentation(props) {
                 </div>
                 {props.biberon === true ? (
                     <div>
-                        <p>{props.amount} mL</p>
+                        <p className={styles.titre}>{props.amount} mL</p>
                     </div>
                 ) : (
                     <div>
-                        <p>{props.which}</p>
-                        <p>{props.duration} min</p>
+                        <p className={styles.titre}>{props.which}</p>
+                        <p className={styles.titre}>{props.duration} min</p>
                     {props.complement === true ? (
                         <div>
-                            <p>Complément:</p>
-                            <p>{props.complementType}/{props.complementMethode} :      {props.complementAmount} mL</p>
+                            <p className={styles.complementBold}>Complément:</p>
+                            <p className={styles.complementInfo}>{props.complementType}/{props.complementMethode} :      {props.complementAmount} mL</p>
                         </div>
                     ): (
-                        <p>Ø Compléments</p>
+                        <p className={styles.complementInfo}>Ø Compléments</p>
                     )}
                     </div>
                 )}
@@ -31,6 +31,7 @@ function Alimentation(props) {
 			</div>
             <div className={styles.btnContainer}>
                 <button className={styles.selectBtn} onClick={props.onClickSelect}>
+                    <img src='/edit.svg'></img>
                 </button>
             </div>
 		</div>

@@ -114,6 +114,12 @@
     text-align: center;
 }
 
+.alimDataNull{
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 40%;
+}
+
 .logoAlim, .logoElim{
     height: 60px;
     margin-top: 10px;
@@ -244,5 +250,9 @@
     margin-left: 0;
 }
 
-
+.noData{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 30%;
+}
 }

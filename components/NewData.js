@@ -7,11 +7,15 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { MultiSectionDigitalClock } from '@mui/x-date-pickers/MultiSectionDigitalClock';
 import { Checkbox, Typography, FormControlLabel, Autocomplete, TextField, Slider, Box, Modal } from "@mui/material";
+import {useSelector } from "react-redux";
+
 
 dayjs.locale('fr')
 
 const NewData = () => {
+    const user = useSelector((state) => state.user.value);
     const [baby, setBaby] = useState(null);
+
 
     // hook d'état pour l'heure
     const [selectedTime, setSelectedTime] = useState(dayjs());
@@ -49,11 +53,15 @@ const NewData = () => {
 
     //Récupération des données du bébé actuel
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/67c585260e52c1fcadd1a066`)
+        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
-                setWeight(`${data.data.weight_id[data.data.weight_id.length-1].weight}`)
+                setWeight(
+                    data.data.weight_id && data.data.weight_id.length > 0
+                        ? `${data.data.weight_id[data.data.weight_id.length - 1].weight}` 
+                        : `${Math.ceil(data.data.birthWeight / 100) * 100}`
+                );
             });
     }, []);
 
@@ -174,7 +182,7 @@ const NewData = () => {
                 });
             }
         
-            fetch(`http://localhost:3000/babyData/67c585260e52c1fcadd1a066/alimentation`, {
+            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/alimentation`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -193,7 +201,7 @@ const NewData = () => {
                 gambling:gambling
             }
 
-            fetch(`http://localhost:3000/babyData/67c585260e52c1fcadd1a066/elimination`, {
+            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/elimination`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -205,12 +213,12 @@ const NewData = () => {
         }
 
         // Logique pour enregistrer le poids si il est rempli
-        if(weight !== baby.weight_id[baby.weight_id.length-1].weight){
+        if( weight !== baby.birthWeight || weight !== baby.weight_id[0].weight){
             let data ={
                 date: formattedDate,
                 weight: Number(weight)
             }
-            fetch(`http://localhost:3000/babyData/67c585260e52c1fcadd1a066/weight`, {
+            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -227,7 +235,7 @@ const NewData = () => {
                 date: formattedDate,
                 temperature: temperature
             }
-            fetch(`http://localhost:3000/babyData/67c585260e52c1fcadd1a066/temperature`, {
+            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -246,7 +254,7 @@ const NewData = () => {
                 faceCare: faceCare,
                 bath: bain,
             }
-            fetch(`http://localhost:3000/babyData/67c585260e52c1fcadd1a066/care`, {
+            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/care`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -611,7 +619,7 @@ const NewData = () => {
                     </div>
                 )}
             </div>
-            <Link href={"/babyTab"}>
+            <Link href={{pathname: "/babyTab", query: {refresh: true}}}>
                 <button className={styles.button} onClick={handelAddData}>Valider</button>
             </Link>
         </div>

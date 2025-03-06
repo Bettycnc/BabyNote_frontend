@@ -1,0 +1,78 @@
+@media (max-width: 768px) {
+.container {
+    height: fit-content; 
+    width: 95%;
+    background-color: #ffffff;
+    display: flex;
+    margin: 10px 10px 0px 10px;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 20px;
+}
+
+.containerCare{
+    height: fit-content; 
+    width: 95%;
+    background-color: #ffffff;
+    display: flex;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    gap: 20px;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.images{
+    width: 60px;
+}
+
+.infoContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap : 50px
+}
+
+.date{
+    width: 30px;
+}
+
+.infoType{
+    display: flex;
+    flex-direction: column;
+
+}
+.btnContainer{
+    margin-top: auto;
+}
+
+.selectBtn{
+    background-color: transparent;
+    border: none;
+}
+
+.selectBtn :hover{
+    cursor: pointer;
+}
+
+.complementBold{
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.complementInfo{
+    font-size: 14px;
+}
+
+.titre{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.btnContainerCare{
+    margin-left: auto;
+    margin-right: 10px;
+}
+}

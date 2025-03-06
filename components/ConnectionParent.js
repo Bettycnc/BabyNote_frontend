@@ -2,6 +2,7 @@ import styles from "../styles/ConnectionParent.module.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../reducers/user";
+import Link from "next/link";
 
 const ConnectionParentPage = () => {
   const [signinUsername, setSigninUsername] = useState("");
@@ -80,9 +81,11 @@ const ConnectionParentPage = () => {
             value={signinPassword}
           />
         </div>
-        <button className={styles.button} onClick={() => handleConnect()}>
-          Connexion
-        </button>
+        <Link href={"/babyTab"}>
+          <button className={styles.button} onClick={() => handleConnect()}>
+            Connexion
+          </button>
+        </Link>
       </div>
     </div>
   );
