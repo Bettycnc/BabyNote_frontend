@@ -208,27 +208,23 @@ const NewBaby = () => {
       </div>
       {baby2}
       {ctaAddChild}
-      {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé
+      {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
-  open={isModalPhotoVisible}
-  onClose={!isModalPhotoVisible}
-  aria-labelledby="modal-modal-title"
-  aria-describedby="modal-modal-description"
->
-  <Box 
-  sx={{width: 100, height: 100}}
-  >
-    <button onClick={()=>addPhoto()}>X</button>
-    <button 
-    //onClick={CameraCapture}
-    >
-    Prendre une photo
-    </button>
-    <button>
-    Ajouter depuis la galerie
-    </button>
-  </Box>
-</Modal> */}
+        open={isModalPhotoVisible}
+        onClose={!isModalPhotoVisible}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={{ width: 100, height: 100 }}>
+          <button onClick={() => addPhoto()}>X</button>
+          <button
+          //onClick={CameraCapture}
+          >
+            Prendre une photo
+          </button>
+          <button>Ajouter depuis la galerie</button>
+        </Box>
+      </Modal>
 
       <button className={styles.button} onClick={() => addBabies()}>
         Valider
