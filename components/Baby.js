@@ -13,7 +13,7 @@ const BabyPage = () => {
     const router = useRouter()
     console.log(router.query)
 
-    const [refresh, setRefresh] = useState(false)
+    // const [refresh, setRefresh] = useState(false)
 
     // if(router.query.refresh){
     //     router.query.refresh = false
