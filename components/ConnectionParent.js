@@ -41,7 +41,7 @@ const ConnectionParentPage = () => {
             })
           );
           //si le parent est associé à un bébé dans la BDD alors redirection vers page tableau de bord sinon redirection vers ajoutter un bébé
-          fetch(`http://localhost:3000/baby/${userId}`)
+          fetch(`http://localhost:3000/baby/redirection/${userId}`)
             .then((response) => response.json())
             .then((dataBaby) => {
               console.log("dataBaby : ", dataBaby);

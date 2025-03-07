@@ -99,6 +99,10 @@ const NewBaby = () => {
           } else {
             setError("");
             console.log("changement de page");
+            dispatch(setBabies([{
+              name: data.baby.name,
+              _id: data.baby._id
+            }]))
           }
         });
     }
@@ -228,9 +232,12 @@ const NewBaby = () => {
         </Box>
       </Modal>
 
-      <button className={styles.button} onClick={() => addBabies()}>
-        Valider
-      </button>
+      
+      <Link href='/babyTab'>
+        <button className={styles.button} onClick={() => addBabies()}>
+          Valider
+        </button>
+      </Link>
     </div>
   );
 };

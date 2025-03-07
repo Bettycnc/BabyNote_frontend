@@ -10,6 +10,7 @@ const BabyPage = () => {
     const [baby, setBaby] = useState(null);
     const user = useSelector((state) => state.user.value);
 
+    console.log(user)
     useEffect(() => {
         console.log('cocucou')
         fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
