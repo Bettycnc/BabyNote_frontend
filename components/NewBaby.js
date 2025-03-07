@@ -28,7 +28,7 @@ const NewBaby = () => {
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
 
   const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
@@ -99,10 +99,14 @@ const NewBaby = () => {
           } else {
             setError("");
             console.log("changement de page");
-            dispatch(setBabies([{
-              name: data.baby.name,
-              _id: data.baby._id
-            }]))
+            dispatch(
+              setBabies([
+                {
+                  name: data.baby.name,
+                  _id: data.baby._id,
+                },
+              ])
+            );
           }
         });
     }
@@ -213,6 +217,7 @@ const NewBaby = () => {
           Ajouter une photo
         </button>
       </div>
+      {baby2}
       {ctaAddChild}
       {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
@@ -232,8 +237,7 @@ const NewBaby = () => {
         </Box>
       </Modal>
 
-      
-      <Link href='/babyTab'>
+      <Link href="/babyTab">
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>
