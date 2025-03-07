@@ -619,7 +619,7 @@ const NewData = () => {
                     </div>
                 )}
             </div>
-            <Link href={{pathname: "/babyTab", query: {refresh: true}}}>
+            <Link href={"/babyTab"}>
                 <button className={styles.button} onClick={handelAddData}>Valider</button>
             </Link>
         </div>

@@ -4,22 +4,11 @@ import { PieChart, Pie, Cell } from "recharts";
 import moment from "moment";
 import Link from "next/link";
 import {useSelector } from "react-redux";
-import {useRouter} from "next/router"
 
 
 const BabyPage = () => {
     const [baby, setBaby] = useState(null);
     const user = useSelector((state) => state.user.value);
-    const router = useRouter()
-    console.log(router.query)
-
-    // const [refresh, setRefresh] = useState(false)
-
-    // if(router.query.refresh){
-    //     router.query.refresh = false
-    //     console.log('coucou')
-    //     setRefresh(!refresh)
-    // }
 
     useEffect(() => {
         console.log('cocucou')
@@ -28,7 +17,7 @@ const BabyPage = () => {
             .then(data => {
                 setBaby(data.data);
             });
-    }, [refresh]); 
+    }, []); 
 
 
     if (!baby) {
