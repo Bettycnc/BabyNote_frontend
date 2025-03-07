@@ -13,8 +13,7 @@ import Link from "next/link";
 import { setBabies } from "../reducers/user";
 //import date en français
 import "moment/locale/fr";
-import {Camera} from "react-camera-pro"; 
-
+import { Camera } from "react-camera-pro";
 
 const NewBaby = () => {
   const [error, setError] = useState("");
@@ -28,7 +27,8 @@ const NewBaby = () => {
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
-  const [isTakePictureModalVisible, setIsTakePictureModalVisible] = useState(false);
+  const [isTakePictureModalVisible, setIsTakePictureModalVisible] =
+    useState(false);
   const [isModalGallerieVisible, setIsModalGallerieVisible] = useState(false);
   const camera = useRef(null);
   const [image, setImage] = useState(null);
@@ -42,8 +42,7 @@ const NewBaby = () => {
   const showTakePicture = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
     setIsTakePictureModalVisible(!isTakePictureModalVisible);
-    
-  }
+  };
 
   const ctaAddChild = "";
 
@@ -239,36 +238,30 @@ const NewBaby = () => {
       >
         <Box sx={{ width: 100, height: 100 }}>
           <button onClick={() => addPhoto()}>X</button>
-          <button
-          onClick={()=>showTakePicture()}
-          >
-            Prendre une photo
-          </button>
+          <button onClick={() => showTakePicture()}>Prendre une photo</button>
           <button>Ajouter depuis la galerie</button>
         </Box>
       </Modal>
       <Modal
-       open={isTakePictureModalVisible}
-       onClose={showTakePicture}
-       aria-labelledby="modal-modal-title"
-       aria-describedby="modal-modal-description">
+        open={isTakePictureModalVisible}
+        onClose={showTakePicture}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={{ width: 100, height: 100 }} className={styles.box}>
-        <button className={styles.takePictureBtn} onClick={() => setImage(camera.current.takePhoto())}>
-          <img src="/cameraImg.svg" alt="camera"></img>
-          Take photo</button>
-    <Camera ref={camera} className={styles.cameraFrame}>
-   </Camera>
-    <img src={image} alt='Taken photo'/>
-    </Box>
-  </Modal>
+          <button
+            className={styles.takePictureBtn}
+            onClick={() => setImage(camera.current.takePhoto())}
+          >
+            <img src="/cameraImg.svg" alt="camera"></img>
+            Take photo
+          </button>
+          <Camera ref={camera} className={styles.cameraFrame}></Camera>
+          <img src={image} alt="Taken photo" />
+        </Box>
+      </Modal>
 
-<<<<<<< HEAD
-    
-      
-      <Link href='/babyTab'>
-=======
       <Link href="/babyTab">
->>>>>>> TDD
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>
