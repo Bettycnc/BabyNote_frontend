@@ -1,6 +1,7 @@
 import styles from "../styles/ConnectionParent.module.css";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { setBabies } from "../reducers/user";
 import { login } from "../reducers/user";
 import Link from "next/link";
 
@@ -46,12 +47,14 @@ const ConnectionParentPage = () => {
             .then((dataBaby) => {
               console.log("dataBaby : ", dataBaby);
               if (dataBaby.result) {
-                console.log("go to tableau de bord");
-                //Lien A mettre quand page crée
-                // window.location.href = "/";
+                console.log("go to baby Tab")
+                dispatch(setBabies(
+                  [{name: dataBaby.name,
+                  _id: dataBaby._id}]))
+                  window.location.href = "/babyTab";
               } else {
                 console.log("go to ajout bébé");
-                //Lien A mettre quand page crée
+                  window.location.href = "/addBaby";
               }
             });
         }
@@ -81,11 +84,9 @@ const ConnectionParentPage = () => {
             value={signinPassword}
           />
         </div>
-        <Link href={"/babyTab"}>
           <button className={styles.button} onClick={() => handleConnect()}>
             Connexion
           </button>
-        </Link>
       </div>
     </div>
   );

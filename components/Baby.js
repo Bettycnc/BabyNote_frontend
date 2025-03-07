@@ -10,12 +10,11 @@ const BabyPage = () => {
     const [baby, setBaby] = useState(null);
     const user = useSelector((state) => state.user.value);
 
-    console.log(user)
     useEffect(() => {
-        console.log('cocucou')
         fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
+                console.log(data)
                 setBaby(data.data);
             });
     }, []); 
@@ -54,7 +53,7 @@ const BabyPage = () => {
     const dataElim = baby.elimination_id
 
      // Trier les données par date décroissante (du plus récent au plus ancien)
-    const sortedDataElim = [...dataElim].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortedDataElim = dataElim.length >0 ? [...dataElim].sort((a, b) => new Date(b.date) - new Date(a.date)) : null;
 
     // Récupérer la dernière entrée
     const lastEntryElim = dataElim.length >0 ? sortedDataElim[0] : null;
@@ -70,7 +69,7 @@ const BabyPage = () => {
     const dataTemp = baby.temperature_id
 
      // Trier les données par date décroissante (du plus récent au plus ancien)
-    const sortedDataTemp = [...dataTemp].sort((a, b) => new Date(b.date) - new Date(a.date));
+    const sortedDataTemp = dataTemp.length >0 ? [...dataTemp].sort((a, b) => new Date(b.date) - new Date(a.date)) :null;
 
     // Récupérer la dernière entrée et mettre la date au bon forma
     const lastEntryTemp = baby.temperature_id.length > 0 ? sortedDataTemp[0] : null;
@@ -83,7 +82,7 @@ const BabyPage = () => {
     .filter(care => care.bath) // Ne garder que les entrées où bath=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateBath = lastBath ? moment(lastBath.date).format("HH:mm") : 'Aucune donnée'
+    const formatedDateBath = lastBath ? moment(lastBath.date).format("HH:mm") : null;
 
 //DONNEES POUR Visage
     // Trouver le dernier bain donné (bath: true)
@@ -92,7 +91,7 @@ const BabyPage = () => {
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
 
 
-    const formatedDateCareFace = lastCareFace ? moment(lastCareFace.date).format("HH:mm") : 'Aucune donnée';
+    const formatedDateCareFace = lastCareFace ? moment(lastCareFace.date).format("HH:mm") : null;
 
     
 //DONNEES POUR CORDON
@@ -101,7 +100,7 @@ const BabyPage = () => {
     .filter(care => care.cordCare) // Ne garder que les entrées où cordCare=true
     .sort((a, b) => new Date(b.date) - new Date(a.date))[0]; // Trier par date décroissante et prendre le plus récent
     
-    const formatedDateCareCord = lastCareCord ? moment(lastCareCord.date).format("HH:mm"): 'Aucune donnée';
+    const formatedDateCareCord = lastCareCord ? moment(lastCareCord.date).format("HH:mm"): null;
 
 //DONNEES POUR ALIMENTATION
 const dataAlim = baby.alimentation_id;
@@ -196,16 +195,15 @@ if (!sortedDataAlim) {
                         </Link>    
                     </div>
                     ) : (
-                        <div className={styles.weigthContainer}>
-                            <p className={styles.noData}>Aucune donnée de poids enregistrée</p>
+                        <div className={styles.weigthContainerNull}>
+                            <p>Poids à la naissance : <span className={styles.noData} > {baby.birthWeight} g</span></p>
                         </div>
                     )}
                 <div className={styles.sousContainer}>
 
                     {/* alimentation */}
-                    <div className={styles.alimContainer}>
-                        {sortedDataAlim !== null ? (
-                            <div>
+                    {sortedDataAlim !== null ? (
+                        <div className={styles.alimContainer}>
                             {sortedDataAlim.breastFeeding ?.length > 0 ? (
                                 <div>
                                     <img className={styles.logoAlim} src='/allaitement.svg'></img>
@@ -224,53 +222,70 @@ if (!sortedDataAlim) {
                                      <p className={styles.textBold}>{lastFeeding.amount} mL</p>
                                 </div>
                             )}
+                            <Link href={"/alimentation"}>
+                                <button className={styles.detailButton}>
+                                    <p>Voir le détail</p>
+                                    <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                                </button>
+                            </Link>
+                            
                             </div>
                         ) : (
-                            <p className={styles.alimDataNull} >Aucune données a afficher</p>
+                            <div className={styles.alimContainerNull}>
+                                <p className={styles.alimDataNull} >Aucune donnée disponible</p>
+                            </div>
                         )}
-                        <Link href={"/alimentation"}>
-                            <button className={styles.detailButton}>
-                                <p>Voir le détail</p>
-                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                            </button>
-                        </Link>
-                    </div>
+                    
 
                     {/* elimination */}
-                    <div className={styles.elimContainer}>
-                        <img className={styles.logoElim} src='/couche.svg'></img>
-                        <p>{formatedDateElim}</p>
-                        <p className={styles.textBold} >{displayedFieldsElim !== null ? displayedFieldsElim : "Aucune donnée disponible"}</p>
-                        <Link href={"/elimination"}>
-                            <button className={styles.detailButton}>
-                                <p>Voir le détail</p>
-                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                            </button>
-                        </Link>
-                    </div>
+                    {sortedDataElim ? (
+                        <div className={styles.elimContainer}>
+                                <img className={styles.logoElim} src='/couche.svg'></img>
+                                <p>{formatedDateElim}</p>
+                                <p className={styles.textBold} >{displayedFieldsElim}</p>
+                                <Link href={"/elimination"}>
+                                    <button className={styles.detailButton}>
+                                        <p>Voir le détail</p>
+                                        <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                                    </button>
+                                </Link>
+                            </div>
+                        ) : (
+                            <div className={styles.alimContainerNull}>
+                                <p className={styles.alimDataNull} >Aucune donnée disponible</p>
+                            </div>
+                        )}
+                        
                 </div>
 
                 {/* temperature  */}
-                <div className={styles.tempContainer}>
-                    <div className={styles.tempChart}>
-                        <img className={styles.logoTemp} src='/temperature.svg'></img>
-                        <div className={styles.tempData}>
-                            <p className={styles.textBold} >
-                                {lastEntryTemp !== null ? 
-                            `${lastEntryTemp.temperature} °C` : "Aucune donnée disponible"}</p>
-                            <p>{formatedDateTemp}</p>
+                    {sortedDataTemp ? (
+                        <div className={styles.tempContainer}>
+                            <div className={styles.tempChart}>
+                                <img className={styles.logoTemp} src='/temperature.svg'></img>
+                                <div className={styles.tempData}>
+                                    <p className={styles.textBold} >
+                                    {lastEntryTemp.temperature} °C</p>
+                                    <p>{formatedDateTemp}</p>
+                                </div>
+                            </div>
+                            <Link href={"/temperature"}>
+                                <button className={styles.detailButton}>
+                                        <p>Voir le détail</p>
+                                        <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                                </button>
+                            </Link>
                         </div>
-                    </div>
-                    <Link href={"/temperature"}>
-                        <button className={styles.detailButton}>
-                                <p>Voir le détail</p>
-                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                        </button>
-                    </Link>
-                </div>
+                    ) : (
+                        <div className={styles.TempDataNull}>
+                            <p className={styles.TempDataNulltext}>Aucune donnée disponible</p>
+                        </div>
+                    )}
+                    
                 <div className={styles.sousContainer}>
                 
                 {/* bain */}
+                {formatedDateCareFace ? (
                     <div className={styles.bathContainer}>
                         <p className={styles.textBold}>Bain</p>
                         <img className={styles.logoCare} src='/bain.svg'></img>
@@ -281,31 +296,48 @@ if (!sortedDataAlim) {
                                 <img src='/chevronRight.svg' className={styles.logoButton}></img>
                             </button>
                         </Link>
-                        </div>
+                    </div>
+                ) : (
+                    <div className={styles.bathContainerNull}>
+                        <p className={styles.textBold}>Aucune donnée disponible</p>
+                    </div>
+                )}
                 {/* soin visage */}
-                    <div className={styles.faceContainer}>
-                        <p className={styles.textBold}>Visage</p>
-                        <img className={styles.logoCare} src='/visage.svg'></img>
-                        <p>{formatedDateCareFace}</p>
-                        <Link href={"/faceCare"}>
-                            <button className={styles.detailButton}>
-                                <p>Voir le détail</p>
-                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                            </button>
-                        </Link>
-                    </div>
+                    {formatedDateCareFace ? (
+                        <div className={styles.faceContainer}>
+                            <p className={styles.textBold}>Visage</p>
+                            <img className={styles.logoCare} src='/visage.svg'></img>
+                            <p>{formatedDateCareFace}</p>
+                            <Link href={"/faceCare"}>
+                                <button className={styles.detailButton}>
+                                    <p>Voir le détail</p>
+                                    <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                                </button>
+                            </Link>
+                        </div>
+                    ): (
+                        <div className={styles.bathContainerNull}>
+                         <p className={styles.textBold}>Aucune donnée disponible</p>
+                        </div>
+                    )}
                 {/* soin cordon */}
-                    <div className={styles.cordContainer}>
-                        <p className={styles.textBold}>Cordon</p>
-                        <img className={styles.logoCare} src='/Cordon.svg'></img>
-                        <p>{formatedDateCareCord}</p>
-                        <Link href={"/cordCare"}>
-                            <button className={styles.detailButton}>
-                                <p>Voir le détail</p>
-                                <img src='/chevronRight.svg' className={styles.logoButton}></img>
-                            </button>
-                        </Link>
-                    </div>
+                    {formatedDateCareCord ? (
+                        <div className={styles.cordContainer}>
+                            <p className={styles.textBold}>Cordon</p>
+                            <img className={styles.logoCare} src='/Cordon.svg'></img>
+                            <p>{formatedDateCareCord}</p>
+                            <Link href={"/cordCare"}>
+                                <button className={styles.detailButton}>
+                                    <p>Voir le détail</p>
+                                    <img src='/chevronRight.svg' className={styles.logoButton}></img>
+                                </button>
+                            </Link>
+                        </div>
+                    ) : (
+                        <div className={styles.bathContainerNull}>
+                            <p className={styles.textBold}>Aucune donnée disponible</p>
+                        </div>
+                    )}
                 </div>
 
                 <Link href={"/newData"}>

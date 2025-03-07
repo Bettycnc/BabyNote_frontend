@@ -37,9 +37,10 @@ const NewData = () => {
     const [urine, setUrine ] = useState(false)
     const [gambling, setGambling] = useState(false)
 
+
     //hook d'état pour le poids
     const [showWeight, setShowWeight]= useState(null)
-    const [weight, setWeight] = useState('')
+    const [weight, setWeight] = useState(null)
 
     //hook d'état pour la température
     const [showTemp, setShowTemp]= useState(null)
@@ -57,11 +58,7 @@ const NewData = () => {
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
-                setWeight(
-                    data.data.weight_id && data.data.weight_id.length > 0
-                        ? `${data.data.weight_id[data.data.weight_id.length - 1].weight}` 
-                        : `${Math.ceil(data.data.birthWeight / 100) * 100}`
-                );
+                setWeight(data.data.birthWeight)
             });
     }, []);
 
@@ -145,7 +142,7 @@ const NewData = () => {
     }
     
 //POUR ENREGISTRER LES DONNEES :
-    const handelAddData = () => {
+    const handelAddData = async () => {
         const formattedDate = selectedTime.toISOString();
 
         // Logique pour enregistrer une alimentation si elle est rempli
@@ -182,7 +179,7 @@ const NewData = () => {
                 });
             }
         
-            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/alimentation`, {
+            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/alimentation`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -201,7 +198,7 @@ const NewData = () => {
                 gambling:gambling
             }
 
-            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/elimination`, {
+            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/elimination`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -213,12 +210,12 @@ const NewData = () => {
         }
 
         // Logique pour enregistrer le poids si il est rempli
-        if( weight !== baby.birthWeight || weight !== baby.weight_id[0].weight){
+        if(weight && weight !== baby.birthWeight){
             let data ={
                 date: formattedDate,
                 weight: Number(weight)
             }
-            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`, {
+            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -235,7 +232,7 @@ const NewData = () => {
                 date: formattedDate,
                 temperature: temperature
             }
-            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`, {
+            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -254,7 +251,7 @@ const NewData = () => {
                 faceCare: faceCare,
                 bath: bain,
             }
-            fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/care`, {
+            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/care`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -264,6 +261,7 @@ const NewData = () => {
                 console.log(data)
             })
         }
+        window.location.href = "/babyTab";
     }
     
 
@@ -619,9 +617,7 @@ const NewData = () => {
                     </div>
                 )}
             </div>
-            <Link href={"/babyTab"}>
-                <button className={styles.button} onClick={handelAddData}>Valider</button>
-            </Link>
+            <button className={styles.button} onClick={handelAddData}>Valider</button>
         </div>
     </div>
   );

@@ -38,4 +38,28 @@
 .dataContainer{
     margin-top: 30px;
 }
+
+.addDataWeight{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center; 
+}
+
+.weightBtn{
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    background-color: rgba(50, 115, 140, 1);
+    color: #fff;
+}
+
+.weightValue{
+    font-size: 18px;
+    font-weight: bold;
+}
 }
