@@ -51,17 +51,27 @@ const Patient = () => {
         : null;
     //tri des dernière Maj de chaque événement
     const lastHours = [];
-    lastHours.push(
-      lastCareDate,
-      lastAlimentationDate,
-      lastEliminationDate,
-      lastTemperatureDate,
-      lastWeightDate
-    );
+    if (lastCareDate !== null) {
+      lastHours.push(lastCareDate);
+    }
+    if (lastAlimentationDate !== null) {
+      lastHours.push(lastAlimentationDate);
+    }
+    if (lastEliminationDate !== null) {
+      lastHours.push(lastEliminationDate);
+    }
+    if (lastTemperatureDate !== null) {
+      lastHours.push(lastTemperatureDate);
+    }
+    if (lastWeightDate !== null) {
+      lastHours.push(lastWeightDate);
+    }
+
     lastHours.sort(); //Tri
     // on récupère la dernière date
     const lastMaj =
       lastHours.length > 0 ? lastHours[lastHours.length - 1] : null;
+    console.log("données", lastHours);
 
     return (
       <PatientCard

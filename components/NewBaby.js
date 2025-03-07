@@ -1,6 +1,6 @@
 import styles from "../styles/NewBaby.module.css";
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 //import selecteur de date MUI
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -13,6 +13,8 @@ import Link from "next/link";
 import { setBabies } from "../reducers/user";
 //import date en français
 import "moment/locale/fr";
+import {Camera} from "react-camera-pro"; 
+
 
 const NewBaby = () => {
   const [error, setError] = useState("");
@@ -26,13 +28,22 @@ const NewBaby = () => {
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
-
+  const [isTakePictureModalVisible, setIsTakePictureModalVisible] = useState(false);
+  const [isModalGallerieVisible, setIsModalGallerieVisible] = useState(false);
+  const camera = useRef(null);
+  const [image, setImage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
   };
+
+  const showTakePicture = () => {
+    setIsModalPhotoVisible(!isModalPhotoVisible);
+    setIsTakePictureModalVisible(!isTakePictureModalVisible);
+    
+  }
 
   const ctaAddChild = "";
 
@@ -99,10 +110,14 @@ const NewBaby = () => {
           } else {
             setError("");
             console.log("changement de page");
-            dispatch(setBabies([{
-              name: data.baby.name,
-              _id: data.baby._id
-            }]))
+            dispatch(
+              setBabies([
+                {
+                  name: data.baby.name,
+                  _id: data.baby._id,
+                },
+              ])
+            );
           }
         });
     }
@@ -213,27 +228,47 @@ const NewBaby = () => {
           Ajouter une photo
         </button>
       </div>
+      {baby2}
       {ctaAddChild}
       {/* Ajout d'une modale pour prendre ou ajouter une photo du bébé */}
       <Modal
         open={isModalPhotoVisible}
-        onClose={!isModalPhotoVisible}
+        onClose={addPhoto}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ width: 100, height: 100 }}>
           <button onClick={() => addPhoto()}>X</button>
           <button
-          //onClick={CameraCapture}
+          onClick={()=>showTakePicture()}
           >
             Prendre une photo
           </button>
           <button>Ajouter depuis la galerie</button>
         </Box>
       </Modal>
+      <Modal
+       open={isTakePictureModalVisible}
+       onClose={showTakePicture}
+       aria-labelledby="modal-modal-title"
+       aria-describedby="modal-modal-description">
+        <Box sx={{ width: 100, height: 100 }} className={styles.box}>
+        <button className={styles.takePictureBtn} onClick={() => setImage(camera.current.takePhoto())}>
+          <img src="/cameraImg.svg" alt="camera"></img>
+          Take photo</button>
+    <Camera ref={camera} className={styles.cameraFrame}>
+   </Camera>
+    <img src={image} alt='Taken photo'/>
+    </Box>
+  </Modal>
 
+<<<<<<< HEAD
+    
       
       <Link href='/babyTab'>
+=======
+      <Link href="/babyTab">
+>>>>>>> TDD
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>
