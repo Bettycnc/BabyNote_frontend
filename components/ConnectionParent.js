@@ -81,11 +81,11 @@ const ConnectionParentPage = () => {
             value={signinPassword}
           />
         </div>
-        <Link href={"/babyTab"}>
-          <button className={styles.button} onClick={() => handleConnect()}>
-            Connexion
-          </button>
-        </Link>
+        {/* <Link href={"/babyTab"}> */}
+        <button className={styles.button} onClick={() => handleConnect()}>
+          Connexion
+        </button>
+        {/* </Link> */}
       </div>
     </div>
   );

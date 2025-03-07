@@ -33,7 +33,7 @@ const NewBaby = () => {
   const camera = useRef(null);
   const [image, setImage] = useState(null);
   const user = useSelector((state) => state.user.value);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
@@ -110,10 +110,14 @@ const NewBaby = () => {
           } else {
             setError("");
             console.log("changement de page");
-            dispatch(setBabies([{
-              name: data.baby.name,
-              _id: data.baby._id
-            }]))
+            dispatch(
+              setBabies([
+                {
+                  name: data.baby.name,
+                  _id: data.baby._id,
+                },
+              ])
+            );
           }
         });
     }
@@ -258,9 +262,13 @@ const NewBaby = () => {
     </Box>
   </Modal>
 
+<<<<<<< HEAD
     
       
       <Link href='/babyTab'>
+=======
+      <Link href="/babyTab">
+>>>>>>> TDD
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>
