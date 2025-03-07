@@ -277,15 +277,17 @@ if (!sortedDataAlim) {
                             </Link>
                         </div>
                     ) : (
+                        <div className={styles.tempContainer}>
                         <div className={styles.TempDataNull}>
                             <p className={styles.TempDataNulltext}>Aucune donnée disponible</p>
+                        </div>
                         </div>
                     )}
                     
                 <div className={styles.sousContainer}>
                 
                 {/* bain */}
-                {formatedDateCareFace ? (
+                {formatedDateBath ? (
                     <div className={styles.bathContainer}>
                         <p className={styles.textBold}>Bain</p>
                         <img className={styles.logoCare} src='/bain.svg'></img>

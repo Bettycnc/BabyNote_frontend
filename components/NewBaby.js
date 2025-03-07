@@ -109,15 +109,14 @@ const NewBaby = () => {
             setError(data.error);
           } else {
             setError("");
-            console.log("changement de page");
             dispatch(
               setBabies([
                 {
                   name: data.baby.name,
                   _id: data.baby._id,
                 },
-              ])
-            );
+              ]));
+            window.location.href = "/babyTab";
           }
         });
     }
@@ -262,17 +261,11 @@ const NewBaby = () => {
     </Box>
   </Modal>
 
-<<<<<<< HEAD
     
       
-      <Link href='/babyTab'>
-=======
-      <Link href="/babyTab">
->>>>>>> TDD
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>
-      </Link>
     </div>
   );
 };
