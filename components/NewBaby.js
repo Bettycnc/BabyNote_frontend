@@ -108,9 +108,9 @@ const NewBaby = () => {
           if (!data.result) {
             setError(data.error);
           } else {
+            
             setError("");
-            dispatch(
-              setBabies([
+            dispatch(setBabies([
                 {
                   name: data.baby.name,
                   _id: data.baby._id,
