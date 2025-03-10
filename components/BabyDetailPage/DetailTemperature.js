@@ -8,6 +8,8 @@ import 'dayjs/locale/fr';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import Menu from '../Menu'
+
 
 dayjs.locale('fr')
 
@@ -19,6 +21,8 @@ function DetailTemperature() {
     const [temperature, setTemperature] = useState(null)
     const [selectedTime, setSelectedTime] = useState(dayjs());
     const formattedDate = selectedTime.toISOString();
+    const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
+    
 
     useEffect(() => {
         fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`)
@@ -26,11 +30,19 @@ function DetailTemperature() {
             .then(data => {
                 setBaby(data.data);
             });
-    }, [openModal]);
+    }, [openModal, isBurgerMenuVisible]);
 
     if (!baby) {
         return <p>Chargement...</p>;
     }    
+
+    const displayMenu = () => {
+        setIsBurgerMenuVisible(true)
+      }
+    
+      const handelClose = () => {
+        setIsBurgerMenuVisible(false)
+      }
 
     const handleOpenModal = (id) => {
         setSelectedId(id);
@@ -77,12 +89,18 @@ function DetailTemperature() {
         )
     })
     return (
+        <div>
+        {isBurgerMenuVisible === true && (
+          <Menu handelClose={handelClose}/>
+      )}
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" />
                 <p className={styles.babyName}>{user.babies[0].name}</p>
-                <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+                <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
+                        <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+                </button>
             </div>
 
             {/* body */}
@@ -103,6 +121,9 @@ function DetailTemperature() {
                         boxShadow: 24,
                         p: 4,
                         borderRadius: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}>
                     <h2>Modifier l'heure</h2>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -116,9 +137,9 @@ function DetailTemperature() {
                         </LocalizationProvider>
                     <h2>Modifier la température</h2>
                         <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '15px' }}>
-                            <Slider sx={{ width: 300 }} defaultValue={37} step={0.1} aria-label="Default" valueLabelDisplay="auto" min={35} max={41} onChange={handelValTemp}/>
+                            <Slider sx={{ width: 300, color:"rgba(50, 115, 140, 1)" }} defaultValue={37} step={0.1} aria-label="Default" valueLabelDisplay="auto" min={35} max={41} onChange={handelValTemp}/>
                         </Box>
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                        <Box sx={{ width:'100%' ,display: 'flex', justifyContent: 'space-between' }}>
                             <Typography variant="body2">
                                 35°C
                             </Typography>
@@ -134,23 +155,24 @@ function DetailTemperature() {
                                 41°C
                             </Typography>
                         </Box>
-                    <Button 
+                        <Button 
                         variant="contained" 
                         color="primary" 
                         onClick={handleSave} 
-                        sx={{ mt: 2 }}
+                        sx={{ mt: 2, width: '150px', backgroundColor: 'rgba(50, 115, 140, 1)', borderRadius: '25px'}}
                     >
                         Enregistrer
                     </Button>
                     <Button 
                         variant="outlined" 
                         onClick={handleCloseModal} 
-                        sx={{ mt: 2, ml: 2 }}
+                        sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px'}}
                     >
                         Annuler
                     </Button>
                 </Box>
             </Modal>
+        </div>
         </div>
     )
 

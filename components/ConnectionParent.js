@@ -50,11 +50,11 @@ const ConnectionParentPage = () => {
                 console.log("go to baby Tab")
                 dispatch(setBabies(
                   [{name: dataBaby.name,
-                  _id: dataBaby._id}]))
+                  _id: dataBaby._id, birthWeight: dataBaby.birthWeight}]))
                   window.location.href = "/babyTab";
               } else {
                 console.log("go to ajout bébé");
-                  window.location.href = "/addBaby";
+                window.location.href = "/addBaby";
               }
             });
         }

@@ -17,12 +17,15 @@ import {
   Modal,
 } from "@mui/material";
 import { useSelector } from "react-redux";
+import Menu from './Menu'
+
 
 dayjs.locale("fr");
 
 const NewData = () => {
   const user = useSelector((state) => state.user.value);
   const [baby, setBaby] = useState(null);
+  const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
 
   // hook d'état pour l'heure
   const [selectedTime, setSelectedTime] = useState(dayjs());
@@ -66,7 +69,17 @@ const NewData = () => {
                 setBaby(data.data);
                 setWeight(data.data.birthWeight)
             });
-    }, []);
+    }, [isBurgerMenuVisible]);
+
+
+  const displayMenu = () => {
+    setIsBurgerMenuVisible(true)
+  }
+
+  const handelClose = () => {
+    setIsBurgerMenuVisible(false)
+  }
+
 
   // Si on a pas de bébé choisi la page ne s'affiche pas
   if (!baby) {
@@ -277,12 +290,18 @@ const NewData = () => {
     
 
   return (
+    <div>
+      {isBurgerMenuVisible === true && (
+        <Menu handelClose={handelClose}/>
+    )}
     <div className={styles.container}>
       {/* Header */}
       <div className={styles.header}>
         <img className={styles.babyPicture} alt="Photo du bébé" />
         <p className={styles.babyName}>{baby.name}</p>
-        <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+          <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
+                <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+          </button>
       </div>
 
       {/* Body */}
@@ -368,6 +387,7 @@ const NewData = () => {
                 <div>
                   <Box sx={{ width: 300, marginTop: "15px" }}>
                     <Slider
+                      sx={{ width: 300, color:"rgba(50, 115, 140, 1)" }}
                       defaultValue={0}
                       aria-label="Default"
                       valueLabelDisplay="auto"
@@ -431,7 +451,7 @@ const NewData = () => {
                         }}
                       >
                         <Slider
-                          sx={{ width: 300 }}
+                          sx={{ width: 300, color:"rgba(50, 115, 140, 1)" }}
                           defaultValue={0}
                           step={1}
                           aria-label="Default"
@@ -506,6 +526,7 @@ const NewData = () => {
                         />
                         <Box sx={{ width: 300, marginTop: "15px" }}>
                           <Slider
+                            sx={{ width: 300, color:"rgba(50, 115, 140, 1)" }}
                             defaultValue={0}
                             aria-label="Default"
                             valueLabelDisplay="auto"
@@ -624,7 +645,7 @@ const NewData = () => {
                 }}
               >
                 <Slider
-                  sx={{ width: 300 }}
+                  sx={{ width: 300, color:"rgba(50, 115, 140, 1)" }}
                   defaultValue={37}
                   step={0.1}
                   aria-label="Default"
@@ -707,6 +728,7 @@ const NewData = () => {
             </div>
             <button className={styles.button} onClick={handelAddData}>Valider</button>
         </div>
+    </div>
     </div>
   );
 };

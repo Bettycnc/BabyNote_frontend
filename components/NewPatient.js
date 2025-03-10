@@ -38,7 +38,6 @@ const NewPatientPage = () => {
   };
 
   return (
-    <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.containerTitleInput}>
           <span className={styles.h4}>Ajouter un patiente</span>
@@ -82,7 +81,6 @@ const NewPatientPage = () => {
           Ajouter la patiente
         </button>
       </div>
-    </div>
   );
 };
 

@@ -30,14 +30,6 @@ export const userSlice = createSlice({
     setBabies: (state, action) => {
       state.value.babies = action.payload;
     },
-    addBaby: (state, action) => {
-      state.value.babies.push(action.payload);
-    },
-    removeBaby: (state, action) => {
-      state.value.babies = state.value.babies.filter(
-        (baby) => baby.id !== action.payload.id
-      );
-    },
   },
 });
 

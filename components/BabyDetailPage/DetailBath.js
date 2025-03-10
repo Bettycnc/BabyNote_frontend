@@ -8,6 +8,7 @@ import 'dayjs/locale/fr';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import Menu from '../Menu'
 
 function DetailBath() {
     const [baby, setBaby] = useState(null);
@@ -16,6 +17,7 @@ function DetailBath() {
     const [selectedId, setSelectedId] = useState(null);
     const [selectedTime, setSelectedTime] = useState(dayjs());
     const formattedDate = selectedTime.toISOString();
+    const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
     
 
     useEffect(() => {
@@ -24,11 +26,19 @@ function DetailBath() {
             .then(data => {
                 setBaby(data.data);
             });
-    }, [openModal]);
+    }, [openModal, isBurgerMenuVisible]);
 
     if (!baby) {
         return <p>Chargement...</p>;
-    }    
+    }  
+    
+    const displayMenu = () => {
+        setIsBurgerMenuVisible(true)
+      }
+    
+      const handelClose = () => {
+        setIsBurgerMenuVisible(false)
+      }
 
     const handleOpenModal = (id) => {
         setSelectedId(id);
@@ -74,12 +84,18 @@ function DetailBath() {
   
 
     return (
+        <div>
+        {isBurgerMenuVisible === true && (
+          <Menu handelClose={handelClose}/>
+      )}
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" />
                 <p className={styles.babyName}>{user.babies[0].name}</p>
-                <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+                <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
+                        <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+                </button>
             </div>
 
             {/* body */}
@@ -100,6 +116,9 @@ function DetailBath() {
                         boxShadow: 24,
                         p: 4,
                         borderRadius: 2,
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center'
                     }}>
                     <h2>Modifier l'heure</h2>
                         <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -111,23 +130,26 @@ function DetailBath() {
                                 }}
                             />
                         </LocalizationProvider>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={handleSave} 
-                        sx={{ mt: 2 }}
-                    >
-                        Enregistrer
-                    </Button>
-                    <Button 
-                        variant="outlined" 
-                        onClick={handleCloseModal} 
-                        sx={{ mt: 2, ml: 2 }}
-                    >
-                        Annuler
-                    </Button>
+                    <Box >
+                        <Button 
+                            variant="contained" 
+                            color="primary" 
+                            onClick={handleSave} 
+                            sx={{ mt: 2, width: '150px', backgroundColor: 'rgba(50, 115, 140, 1)', borderRadius: '25px', mr: 2}}
+                        >
+                            Enregistrer
+                        </Button>
+                        <Button 
+                            variant="outlined" 
+                            onClick={handleCloseModal} 
+                            sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px'}}
+                        >
+                            Annuler
+                        </Button>
+                    </Box>
                 </Box>
             </Modal>
+        </div>
         </div>
     )
 
