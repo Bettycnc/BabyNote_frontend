@@ -7,9 +7,10 @@ import storage from "redux-persist/lib/storage";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import user from "../reducers/user";
+import userPro from "../reducers/userPro";
 
 const persistConfig = { key: "babyNote", storage };
-const reducers = combineReducers({ user });
+const reducers = combineReducers({ user, userPro });
 const persistedReducer = persistReducer(persistConfig, reducers);
 
 const store = configureStore({

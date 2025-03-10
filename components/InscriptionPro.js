@@ -1,6 +1,8 @@
 import styles from "../styles/InscriptionPro.module.css";
 import { useState } from "react";
 import Link from "next/link";
+import { login } from "../reducers/userPro";
+import { useDispatch, useSelector } from "react-redux";
 
 const InscriptionPro = () => {
   const [signUpLastName, setSignUpLastName] = useState("");
@@ -9,6 +11,8 @@ const InscriptionPro = () => {
   const [signUpPassword, setSignUpPassword] = useState("");
   const [signUpConfirmPassword, setSignUpConfirmPassword] = useState("");
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleSignUp = () => {
     fetch("http://localhost:3000/pros/signup", {
@@ -24,6 +28,12 @@ const InscriptionPro = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        dispatch(
+          login({
+            token: data.token,
+            username: data.username,
+          })
+        );
         if (data.result) {
           setSignUpLastName("");
           setSignUpFirstName("");
@@ -31,7 +41,7 @@ const InscriptionPro = () => {
           setSignUpPassword("");
           setSignUpConfirmPassword("");
 
-          console.log("cliqué et enregistré");
+          console.log(data);
           window.location.href = "/listPatient";
           // Ajouter le lien vers la liste des patientes
         } else {
@@ -42,8 +52,6 @@ const InscriptionPro = () => {
       });
   };
 
- 
-    
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -102,12 +110,9 @@ const InscriptionPro = () => {
 
         <p className={styles.textSmall}>Déjà inscrit ?</p>
 
-        <Link href={"/connexionPro"}> 
-        <button className={styles.buttonLight} >
-          Me connecter
-        </button>
+        <Link href={"/connexionPro"}>
+          <button className={styles.buttonLight}>Me connecter</button>
         </Link>
-       
       </div>
     </div>
   );
