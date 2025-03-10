@@ -65,4 +65,8 @@
       .button:hover {
         background: #6596a9;
       }
+      .btnContainer {
+        display: flex;
+        justify-content: center;
+      }
 }

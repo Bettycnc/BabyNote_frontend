@@ -8,9 +8,13 @@ const ConnectionParentPage = () => {
   const [signinUsername, setSigninUsername] = useState("");
   const [signinPassword, setSigninPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.value); //test de l'affichage du reducer
+  const toggleVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handleConnect = () => {
     // console.log("Utilisateur : ", signinUsername, "MdP : ", signinPassword);
@@ -73,7 +77,7 @@ const ConnectionParentPage = () => {
             value={signinUsername}
           />
           <input
-            type="password"
+            type={passwordVisible ? "text" : "password"}
             className={styles.input}
             placeholder="Mot de Passe*"
             id="signinPassword"

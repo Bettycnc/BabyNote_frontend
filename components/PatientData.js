@@ -1,6 +1,5 @@
 import styles from "../styles/PatientData.module.css";
 import React, { useEffect, useState } from "react";
-import HeaderPro from "./HeaderPro";
 import "moment/locale/fr";
 import {
   MenuItem,
@@ -39,53 +38,16 @@ const Patient = () => {
 
   console.log(babiesData);
 
-  //   const motherName = babiesData.user_id.lastname;
   const babyName = babiesData.name;
-  //   const room = babiesData.user_id.room;
+  const motherName = "";
+  const room = "";
 
-  const ButtonStyle = styled(Button)(({ theme }) => ({
+  const ButtonStyle = styled(Button)(() => ({
     borderColor: "#bfbfbf",
     color: "#7f7f7f",
     fontVariantCaps: "normal",
     fontWeight: 500,
   }));
-
-  //regruper les données par horaire :
-
-  //   const combineArray = babiesData.alimentation_id
-  //     .map((date1) => {
-  //       const correspondance = babiesData.temperature_id.find(
-  //         (date2) => date2.date === date1.date
-  //       );
-  //       return correspondance ? { ...date1, ...correspondance } : null;
-  //     })
-  //     .filter((date) => date !== null);
-
-  const arrDetails = [
-    babiesData.alimentation_id,
-    babiesData.elimination_id,
-    babiesData.care_id,
-    babiesData.weight_id,
-    babiesData.temperature_id,
-  ];
-  //   console.log(arrDetails.length);
-
-  //   for (let i = 0; i < arrDetails.length; i++) {
-  //     if (i > 0) {
-  //       console.log("coucou");
-  //     } else {
-  //       combineArray = arrDetails[i - 1]
-  //         .map((date1) => {
-  //           const correspondance = arrDetails[i].find(
-  //             (date2) => date2.date === date1.date
-  //           );
-  //           return correspondance ? { ...date1, ...correspondance } : null;
-  //         })
-  //         .filter((date) => date !== null);
-  //     }
-  //     console.log("combine", combineArray);
-  //     }
-  //   }
 
   function createData(
     hour,
@@ -111,7 +73,7 @@ const Patient = () => {
 
   const rows = [
     createData(
-      "08:35",
+      "08:40",
       3000,
       36.9,
       "Urine",
@@ -121,7 +83,17 @@ const Patient = () => {
       "oui"
     ),
     createData(
-      "08:40",
+      "08:50",
+      3000,
+      36.9,
+      "Urine",
+      "biberon 50 mL",
+      "oui",
+      "non",
+      "oui"
+    ),
+    createData(
+      "09:40",
       3000,
       36.9,
       "Urine",
@@ -140,8 +112,10 @@ const Patient = () => {
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-          <p className={styles.h3}>Mme - {babyName}</p>
-          <p className={styles.h4}>Chambre </p>
+          <p className={styles.h3}>
+            Mme {motherName} - {babyName}
+          </p>
+          <p className={styles.h4}>Chambre {room} </p>
         </div>
         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
       </div>
@@ -210,7 +184,9 @@ const Patient = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <button className={styles.button}>Modifier</button>
+      <div className={styles.btnContainer}>
+        <button className={styles.button}>Modifier</button>
+      </div>
     </div>
   );
 };
