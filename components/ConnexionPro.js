@@ -1,12 +1,15 @@
 import { useState } from "react";
 import styles from "../styles/ConnexionPro.module.css";
 import Link from "next/link";
-
+import { login } from "../reducers/userPro";
+import { useDispatch, useSelector } from "react-redux";
 
 const ConnexionPro = () => {
   const [signInUsername, setSignInUsername] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [error, setError] = useState("");
+
+  const dispatch = useDispatch();
 
   const handleConnection = () => {
     fetch("http://localhost:3000/pros/signin", {
@@ -19,6 +22,14 @@ const ConnexionPro = () => {
     })
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
+
+        dispatch(
+          login({
+            token: data.data.token,
+            username: data.data.username,
+          })
+        );
         if (data.result) {
           //dispatch(login({ username: signInUsername, token: data.token })); Je ne comprends pas à quoi sert cette ligne
           setSignInUsername("");
@@ -33,9 +44,6 @@ const ConnexionPro = () => {
         }
       });
   };
-
- 
-    
 
   return (
     <div className={styles.container}>
@@ -72,11 +80,8 @@ const ConnexionPro = () => {
         <p className={styles.textSmall}>Pas encore de compte ?</p>
 
         <Link href="/inscriptionPro">
-         <button className={styles.buttonLight}>
-        Créer un compte
-         </button>
+          <button className={styles.buttonLight}>Créer un compte</button>
         </Link>
-
       </div>
     </div>
   );

@@ -13,8 +13,7 @@ import Link from "next/link";
 import { setBabies } from "../reducers/user";
 //import date en français
 import "moment/locale/fr";
-import {Camera} from "react-camera-pro"; 
-
+import { Camera } from "react-camera-pro";
 
 const NewBaby = () => {
   const [error, setError] = useState("");
@@ -28,22 +27,53 @@ const NewBaby = () => {
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
-  const [isTakePictureModalVisible, setIsTakePictureModalVisible] = useState(false);
+  const [isTakePictureModalVisible, setIsTakePictureModalVisible] =
+    useState(false);
   const [isModalGallerieVisible, setIsModalGallerieVisible] = useState(false);
   const camera = useRef(null);
   const [image, setImage] = useState(null);
+  const [url, setUrl] = useState("");
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
   };
+ const cameraRef = useRef(null);
+ 
+ // Fonction pour prendre une photo et l'envoyer au back
+  const takePhoto = async () =>{
+    console.log("photo");
+    const photo = camera.current?.takePhoto();
+    
+    setImage(camera.current.takePhoto());
+    
+		
+		const formData  = new FormData();
+	
+
+		formData.append('photoFromFront', photo);
+		console.log(formData);
+		fetch('http://localhost:3000/baby/upload', {
+		 method: 'POST',
+		 body: JSON.stringify({photo}),
+     headers: {"content-type": "application/JSON"}
+		}).then((response) => response.json())
+		 .then((data) => {
+      setUrl(data.url);
+      console.log(data.url)
+			//dispatch(addPhoto(data.url))
+		});
+
+
+
+
+  }
 
   const showTakePicture = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
     setIsTakePictureModalVisible(!isTakePictureModalVisible);
-    
-  }
+  };
 
   const ctaAddChild = "";
 
@@ -100,6 +130,7 @@ const NewBaby = () => {
           birthday,
           birthWeight: weight,
           user_id: user._id,
+          picture: url
         }),
       })
         .then((response) => response.json())
@@ -112,7 +143,8 @@ const NewBaby = () => {
             dispatch(setBabies([{
                   name: data.baby.name,
                   _id: data.baby._id,
-                  birthWeight : data.baby.birthWeight
+                  birthWeight : data.baby.birthWeight,
+                  picture: data.baby.picture,
                 }]));
             window.location.href = "/babyTab";
           }
@@ -236,31 +268,30 @@ const NewBaby = () => {
       >
         <Box sx={{ width: 100, height: 100 }}>
           <button onClick={() => addPhoto()}>X</button>
-          <button
-          onClick={()=>showTakePicture()}
-          >
-            Prendre une photo
-          </button>
+          <button onClick={() => showTakePicture()}>Prendre une photo</button>
           <button>Ajouter depuis la galerie</button>
         </Box>
       </Modal>
       <Modal
-       open={isTakePictureModalVisible}
-       onClose={showTakePicture}
-       aria-labelledby="modal-modal-title"
-       aria-describedby="modal-modal-description">
+        open={isTakePictureModalVisible}
+        onClose={showTakePicture}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
         <Box sx={{ width: 100, height: 100 }} className={styles.box}>
-        <button className={styles.takePictureBtn} onClick={() => setImage(camera.current.takePhoto())}>
-          <img src="/cameraImg.svg" alt="camera"></img>
-          Take photo</button>
-    <Camera ref={camera} className={styles.cameraFrame}>
-   </Camera>
-    <img src={image} alt='Taken photo'/>
-    </Box>
-  </Modal>
+          <button
+            className={styles.takePictureBtn}
+            onClick={()=> takePhoto()}
+          >
+            <img src="/cameraImg.svg" alt="camera"></img>
+            Take photo
+          </button>
+          <Camera ref={camera} className={styles.cameraFrame}></Camera>
+          <img src={image} alt="Taken photo" />
+        </Box>
+      </Modal>
 
-    
-      
+
         <button className={styles.button} onClick={() => addBabies()}>
           Valider
         </button>

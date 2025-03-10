@@ -5,7 +5,7 @@ import MenuPro from './MenuPro'
 
 
 const HeaderPro = () => {
-  // const user = useSelector((state) => state.user.value);
+  const userPro = useSelector((state) => state.userPro.value);
   const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
   
   const displayMenu = () => {
@@ -22,13 +22,13 @@ const HeaderPro = () => {
           <MenuPro handelClose={handelClose}/>
         )}
         <div>
-          <p className={styles.h3}>Bonjour !</p>
+          <p className={styles.h3}>Bonjour {userPro.username} !</p>
           <p className={styles.h4}>Suite de couche</p>
         </div>
         <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
           <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
-        </button>    
-      </div>
+        </button>
+      </div>   
   );
 };
 
