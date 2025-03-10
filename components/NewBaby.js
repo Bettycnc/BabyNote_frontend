@@ -32,12 +32,43 @@ const NewBaby = () => {
   const [isModalGallerieVisible, setIsModalGallerieVisible] = useState(false);
   const camera = useRef(null);
   const [image, setImage] = useState(null);
+  const [url, setUrl] = useState("");
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
   };
+ const cameraRef = useRef(null);
+ 
+ // Fonction pour prendre une photo et l'envoyer au back
+  const takePhoto = async () =>{
+    console.log("photo");
+    const photo = camera.current?.takePhoto();
+    
+    setImage(camera.current.takePhoto());
+    
+		
+		const formData  = new FormData();
+	
+
+		formData.append('photoFromFront', photo);
+		console.log(formData);
+		fetch('http://localhost:3000/baby/upload', {
+		 method: 'POST',
+		 body: JSON.stringify({photo}),
+     headers: {"content-type": "application/JSON"}
+		}).then((response) => response.json())
+		 .then((data) => {
+      setUrl(data.url);
+      console.log(data.url)
+			//dispatch(addPhoto(data.url))
+		});
+
+
+
+
+  }
 
   const showTakePicture = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
@@ -99,6 +130,7 @@ const NewBaby = () => {
           birthday,
           birthWeight: weight,
           user_id: user._id,
+          picture: url
         }),
       })
         .then((response) => response.json())
@@ -114,6 +146,7 @@ const NewBaby = () => {
                 {
                   name: data.baby.name,
                   _id: data.baby._id,
+                  picture: data.baby.picture,
                 },
               ])
             );
@@ -251,7 +284,7 @@ const NewBaby = () => {
         <Box sx={{ width: 100, height: 100 }} className={styles.box}>
           <button
             className={styles.takePictureBtn}
-            onClick={() => setImage(camera.current.takePhoto())}
+            onClick={()=> takePhoto()}
           >
             <img src="/cameraImg.svg" alt="camera"></img>
             Take photo

@@ -133,12 +133,12 @@ if (!sortedDataAlim) {
     }
 }
 
-
+console.log("baby infos" , user.babies[0]);
     return (
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
-                <img className={styles.babyPicture} alt="Photo du bébé" />
+                <img className={styles.babyPicture} alt="Photo du bébé" src={user.babies[0].picture}/>
                 <p className={styles.babyName}>{user.babies[0].name}</p>
                 <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
             </div>
