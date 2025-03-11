@@ -90,9 +90,9 @@ function DetailTemperature() {
     })
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
           <Menu handelClose={handelClose}/>
-      )}
+      ) : (
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
@@ -173,6 +173,7 @@ function DetailTemperature() {
                 </Box>
             </Modal>
         </div>
+      )}
         </div>
     )
 

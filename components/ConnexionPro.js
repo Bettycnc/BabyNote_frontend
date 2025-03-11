@@ -22,23 +22,19 @@ const ConnexionPro = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-
-        dispatch(
-          login({
-            token: data.data.token,
-            username: data.data.username,
-          })
-        );
         if (data.result) {
-          //dispatch(login({ username: signInUsername, token: data.token })); Je ne comprends pas à quoi sert cette ligne
           setSignInUsername("");
           setSignInPassword("");
 
           setError("");
-          console.log(data);
+          dispatch(
+            login({
+              token: data.token,
+              username: data.data.username,
+              _id: data.data._id
+            })
+          );
           window.location.href = "/listPatient";
-          // Ajouter le lien vers la liste des patientes
         } else {
           setError(data.error);
         }

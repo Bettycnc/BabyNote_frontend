@@ -4,9 +4,12 @@ import HeaderPro from "./HeaderPro";
 import SearchBar from "./SearchBar";
 import PatientCard from "./PatientCard";
 import "moment/locale/fr";
+import {selectedBaby} from "../reducers/userPro"
+import { useDispatch } from "react-redux";
 
 const Patient = () => {
   const [allBabies, setAllBabies] = useState([]);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     fetch("http://localhost:3000/baby")
@@ -15,8 +18,6 @@ const Patient = () => {
         setAllBabies(data.filteredData);
       });
   }, []);
-
-  console.log(allBabies);
 
   const patient = allBabies.map((data, i) => {
     //------récupérer la date de la dernière mise à jours ---------
@@ -71,7 +72,6 @@ const Patient = () => {
     // on récupère la dernière date
     const lastMaj =
       lastHours.length > 0 ? lastHours[lastHours.length - 1] : null;
-    console.log("données", lastHours);
 
     return (
       <PatientCard
@@ -80,9 +80,15 @@ const Patient = () => {
         room={data.user_id.room}
         lastname={data.user_id.lastname}
         date={lastMaj}
+        selectPatient={() => selectPatient(data._id)}
       />
     );
   });
+
+  const selectPatient = (id) => {
+    dispatch(selectedBaby({ babyId: id }))
+    window.location.href = "/patient";
+  }
 
   let noPatient = "";
   if (allBabies.length < 1) {

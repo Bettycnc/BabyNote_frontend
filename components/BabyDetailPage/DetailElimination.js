@@ -93,96 +93,97 @@ function DetailElimination() {
 
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
           <Menu handelClose={handelClose}/>
-      )}
+      ) : (
         <div className={styles.container}>
-            {/* Header */}
-            <div className={styles.header}>
-                <img className={styles.babyPicture} alt="Photo du bébé" />
-                <p className={styles.babyName}>{user.babies[0].name}</p>
-                <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
-                        <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
-                </button>
-            </div>
-
-            {/* Body */}
-            <div className={styles.dataContainer}>{data}</div>
-
-            {/* Modal */}
-            <Modal open={openModal} onClose={handleCloseModal}>
-                <Box 
-                    sx={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        width: 400,
-                        bgcolor: "background.paper",
-                        boxShadow: 24,
-                        p: 4,
-                        borderRadius: 2,
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center'
-                    }}>
-                    <h2>Modifier l'heure</h2>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker
-                                value={selectedTime}
-                                ampm={false}
-                                onChange={(newValue) => {
-                                setSelectedTime(newValue);
-                                }}
-                            />
-                        </LocalizationProvider>
-                    <h2>Modifier l'élimination</h2>
-                    <Box >
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                            onChange={() => setUrine(!urine)}
-                            sx={{ 
-                            '& .MuiSvgIcon-root': { fontSize: 50}, 
-                            '&.Mui-checked': {color: '#32738C'}}
-                            }/>
-                        }
-                        label='Urines'
-                    >
-                    </FormControlLabel>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                            onChange={() => setGambling(!gambling)}
-                            sx={{ 
-                            '& .MuiSvgIcon-root': { fontSize: 50 }, 
-                            '&.Mui-checked': {color: '#32738C'},
-                            '.Mui-focusVisible &': {
-                            outline: '2px auto rgba(19,124,189,.6)'}
-                        }}/>
-                        }
-                        label='Selles'
-                    >
-                    </FormControlLabel>
-                    </Box>
-                    <Button 
-                        variant="contained" 
-                        color="primary" 
-                        onClick={handleSave} 
-                        sx={{ mt: 2, width: '150px', backgroundColor: 'rgba(50, 115, 140, 1)', borderRadius: '25px'}}
-                    >
-                        Enregistrer
-                    </Button>
-                    <Button 
-                        variant="outlined" 
-                        onClick={handleCloseModal} 
-                        sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px'}}
-                    >
-                        Annuler
-                    </Button>
-                </Box>
-            </Modal>
+        {/* Header */}
+        <div className={styles.header}>
+            <img className={styles.babyPicture} alt="Photo du bébé" />
+            <p className={styles.babyName}>{user.babies[0].name}</p>
+            <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
+                    <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
+            </button>
         </div>
+
+        {/* Body */}
+        <div className={styles.dataContainer}>{data}</div>
+
+        {/* Modal */}
+        <Modal open={openModal} onClose={handleCloseModal}>
+            <Box 
+                sx={{
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    width: 400,
+                    bgcolor: "background.paper",
+                    boxShadow: 24,
+                    p: 4,
+                    borderRadius: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center'
+                }}>
+                <h2>Modifier l'heure</h2>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <TimePicker
+                            value={selectedTime}
+                            ampm={false}
+                            onChange={(newValue) => {
+                            setSelectedTime(newValue);
+                            }}
+                        />
+                    </LocalizationProvider>
+                <h2>Modifier l'élimination</h2>
+                <Box >
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                        onChange={() => setUrine(!urine)}
+                        sx={{ 
+                        '& .MuiSvgIcon-root': { fontSize: 50}, 
+                        '&.Mui-checked': {color: '#32738C'}}
+                        }/>
+                    }
+                    label='Urines'
+                >
+                </FormControlLabel>
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                        onChange={() => setGambling(!gambling)}
+                        sx={{ 
+                        '& .MuiSvgIcon-root': { fontSize: 50 }, 
+                        '&.Mui-checked': {color: '#32738C'},
+                        '.Mui-focusVisible &': {
+                        outline: '2px auto rgba(19,124,189,.6)'}
+                    }}/>
+                    }
+                    label='Selles'
+                >
+                </FormControlLabel>
+                </Box>
+                <Button 
+                    variant="contained" 
+                    color="primary" 
+                    onClick={handleSave} 
+                    sx={{ mt: 2, width: '150px', backgroundColor: 'rgba(50, 115, 140, 1)', borderRadius: '25px'}}
+                >
+                    Enregistrer
+                </Button>
+                <Button 
+                    variant="outlined" 
+                    onClick={handleCloseModal} 
+                    sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px'}}
+                >
+                    Annuler
+                </Button>
+            </Box>
+        </Modal>
+    </div>
+      )}
         </div>
     );
 }

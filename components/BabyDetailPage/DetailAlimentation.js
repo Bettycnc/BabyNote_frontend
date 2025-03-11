@@ -177,10 +177,10 @@ function DetailAlimentation() {
     
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
           <Menu handelClose={handelClose}/>
-      )}
-        <div className={styles.container}>
+      ) : (
+<div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" />
@@ -377,6 +377,8 @@ function DetailAlimentation() {
                 </Box>
                 </Modal>
         </div>
+      )}
+        
         </div>
     )
 

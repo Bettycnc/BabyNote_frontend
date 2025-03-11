@@ -109,9 +109,9 @@ function DetailWeight() {
   
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
           <Menu handelClose={handelClose}/>
-      )}
+      ) : (
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
@@ -217,6 +217,7 @@ function DetailWeight() {
                 </Box>
             </Modal>
         </div>
+      )}
         </div>
     )
 

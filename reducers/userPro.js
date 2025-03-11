@@ -5,6 +5,7 @@ const initialState = {
     token: null,
     username: null,
     _id: null,
+    babyId:null,
   },
 };
 
@@ -15,13 +16,19 @@ export const userProSlice = createSlice({
     login: (state, action) => {
       state.value.token = action.payload.token;
       state.value.username = action.payload.username;
+      state.value._id = action.payload._id;
     },
     logout: (state) => {
       state.value.token = null;
       state.value.username = null;
+      state.value.babyId= null;
+      state.value._id = null
     },
+    selectedBaby: (state, action) => {
+      state.value.babyId = action.payload.babyId
+    }
   },
 });
 
-export const { login, logout } = userProSlice.actions;
+export const { login, logout, selectedBaby } = userProSlice.actions;
 export default userProSlice.reducer;

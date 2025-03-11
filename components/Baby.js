@@ -142,14 +142,12 @@ if (!sortedDataAlim) {
     }
 }
 
-console.log("baby infos" , user.babies[0]);
-
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
             <Menu handelClose={handelClose}/>
-        )}
-        <div className={styles.container}>
+        ) : (
+            <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" src={user.babies[0].picture ? user.babies[0].picture : '/avatarBaby.jpg'}/>
@@ -364,6 +362,8 @@ console.log("baby infos" , user.babies[0]);
                 </Link>
             </div>
         </div>
+        )}
+
     </div>
     )
 };

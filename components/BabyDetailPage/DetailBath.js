@@ -85,10 +85,10 @@ function DetailBath() {
 
     return (
         <div>
-        {isBurgerMenuVisible === true && (
+        {isBurgerMenuVisible === true ? (
           <Menu handelClose={handelClose}/>
-      )}
-        <div className={styles.container}>
+      ) : (
+<div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" />
@@ -150,6 +150,7 @@ function DetailBath() {
                 </Box>
             </Modal>
         </div>
+      )}
         </div>
     )
 

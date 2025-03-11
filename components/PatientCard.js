@@ -39,16 +39,18 @@ const PatientCard = (props) => {
   }
   return (
     <div className={styles.card}>
-      <div style={styleBorderAlert}> </div>
-      <div className={styles.text}>
-        <p className={styles.title}>
-          Chambre {props.room} -
-          <span className={styles.name}> Mme {props.lastname}</span>
-        </p>
-        <p className={styles.babyName}>Bébé: {props.name}</p>
-        {majDate}
-      </div>
-      {iconAlert}
+      <button className={styles.buttonPatient} onClick={props.selectPatient}>
+        <div style={styleBorderAlert}> </div>
+        <div className={styles.text}>
+          <p className={styles.title}>
+            Chambre {props.room} -
+            <span className={styles.name}> Mme {props.lastname}</span>
+          </p>
+          <p className={styles.babyName}>Bébé: {props.name}</p>
+          {majDate}
+        </div>
+        {iconAlert}
+      </button>
     </div>
   );
 };

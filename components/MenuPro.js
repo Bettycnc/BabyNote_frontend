@@ -1,25 +1,26 @@
 import styles from '../styles/Menu.module.css'
 import { useSelector, useDispatch } from "react-redux";
-// import { } from "../reducers/user"
+import {logout } from "../reducers/userPro"
 import { useEffect, useState } from 'react';
 import { Modal, Box, Button, TextField, Popover } from "@mui/material";
 import NewPatientPage from './NewPatient'
 
 function MenuPro(props) {
 
-    // const user = useSelector((state) => state.user.value); mettre le lien avec le reducer pro
+    const userPro = useSelector((state) => state.userPro.value);
     const dispatch = useDispatch()
     const [openModalUser, setOpenModalUser] = useState(false)
     const [openModalNewPatient, setOpenModalNewPatient] = useState(false)
-    const [newUsername, setNewUsername] = useState('')
+    const [newUsername, setNewUsername] = useState(userPro.username)
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
 
+    console.log(userPro)
+
     const handelLogout = () => {
-        // dispatch(logout())
-        // window.location.href = "/"
+        dispatch(logout())
+        window.location.href = "/"
     }
-    //logique a finir en fonction du reducer pro
 
     const showModalUser = () => {
         setOpenModalUser(true)
@@ -44,7 +45,7 @@ function MenuPro(props) {
             confirmPassword: confirmPassword,
         }
 
-        fetch(`http://localhost:3000/pros/`, { //penser a mettre le chemin pour le profesionnel
+        fetch(`http://localhost:3000/pros/${userPro._id}`, { //penser a mettre le chemin pour le profesionnel
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),
@@ -61,7 +62,7 @@ function MenuPro(props) {
     }
 
     return (
-        <div className={styles.container}>
+        <div className={styles.containerPro}>
             <div className={styles.header}>
                 <p className={styles.titre} >Bonjour, </p>
                 <button className={styles.closebnt} onClick={props.handelClose}>
@@ -153,8 +154,7 @@ function MenuPro(props) {
                     <Button
                         variant="outlined"
                         onClick={handelCloseModalUser}
-                        sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px' }}
-                    >
+                        sx={{ mt: 2, width: '150px', color: '#8C8C8C', borderColor: '#8C8C8C', borderRadius: '25px' }}>
                         Annuler
                     </Button>
                 </Box>
