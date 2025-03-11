@@ -144,6 +144,45 @@
   .button {
     width: 60%;
   }
+
+  .inputPasswordContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: solid 1px #7f7f7f;
+    padding-bottom: -20px;
+  }
+
+  .btnVisiblePassword {
+    background-color: transparent;
+    border: 0px;
+    /* padding-bottom: 10px; */
+    /* border-bottom: 1px solid black; */
+  }
+  
+  .inputPassword {
+    width: 100%;
+    height: 40px;
+    color: #7f7f7f;
+    font-weight: 200;
+    padding-bottom: 0px;
+    border: 0;
+    /* border-bottom: solid 1px #7f7f7f; */
+    /* margin-bottom: 20px; */
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .inputPassword::placeholder {
+    color: #bfbfbf
+  }
+  .inputPassword:focus-visible {
+    outline: 0;
+  }
+  .inputPasswordContainer:focus {
+    border: 0px;
+    border-bottom: solid 2px #32738C;
+  }
 }
 
 .error {
