@@ -143,6 +143,7 @@ if (!sortedDataAlim) {
 }
 
 console.log("baby infos" , user.babies[0]);
+
     return (
         <div>
         {isBurgerMenuVisible === true && (
