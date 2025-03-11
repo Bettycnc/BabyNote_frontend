@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 const Patient = () => {
   const [allBabies, setAllBabies] = useState([]);
   const dispatch = useDispatch()
+  const [search, setSearch] = useState(""); //input de recherhe
+  const [filteredBabies, setFilteredBabies] = useState([]); //tableau des bébés filtrés
+  const [switchMap, setSwitchMap] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/baby")
@@ -18,6 +21,22 @@ const Patient = () => {
         setAllBabies(data.filteredData);
       });
   }, []);
+
+  const searchClick = () => {
+    if (search === "") {
+      setFilteredBabies(allBabies);
+    } else {
+      const filteredBabiesTemp = allBabies.filter((baby) =>
+        baby.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredBabies(filteredBabiesTemp);
+      setSwitchMap(true);
+    }
+  };
+
+  const map = allBabies;
+  switchMap ? (map = filteredBabies) : (map = allBabies);
+
 
   const patient = allBabies.map((data, i) => {
     //------récupérer la date de la dernière mise à jours ---------
