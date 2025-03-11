@@ -72,6 +72,7 @@ const Patient = () => {
     // on récupère la dernière date
     const lastMaj =
       lastHours.length > 0 ? lastHours[lastHours.length - 1] : null;
+    // console.log("données", lastHours);
 
     return (
       <PatientCard
@@ -98,7 +99,21 @@ const Patient = () => {
   return (
     <div className={styles.container}>
       <HeaderPro />
-      <SearchBar />
+      <div>
+        <div className={styles.search}>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Rechercher un bébé"
+            id="searchPatient"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+          <button className={styles.loupe} onClick={searchClick}>
+            <img src="/loupe.svg" alt="Menu" className={styles.icon} />
+          </button>
+        </div>
+      </div>
       <div className={styles.cardContainer}>{patient}</div>
       <p>{noPatient}</p>
     </div>
