@@ -89,7 +89,7 @@ function Menu(props) {
             </div>
             <div className={styles.babyOption}>
                 <button className={styles.btnBaby} onClick={handleClick}>
-                    <img className={styles.imgBaby} src='/avatarBaby.jpg'></img>
+                    {/* <img className={styles.imgBaby} src={babyInfo.picture ? baby.picture : "/avatarBaby.jpg"}></img> */}
                     <p className={styles.nameBaby}>{user.babies[0].name}</p>
                     <img className={styles.chevron} src='/chevronBottom.svg' alt="Dropdown" />
                 </button>

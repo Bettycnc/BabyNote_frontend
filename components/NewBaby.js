@@ -33,12 +33,39 @@ const NewBaby = () => {
   const camera = useRef(null);
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
+  const [file, setFile] = useState();
+  const[fileOrPhoto, setFileOrPhoto] = useState("");
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
   const addPhoto = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
   };
+
+  function handleUploadImg(e) {
+
+    const formData = new FormData();
+
+   
+
+    formData.append('photoFromFront', e.target.files[0]
+      
+     );
+
+     fetch('http://localhost:3000/baby/uploadfile', {
+      method: 'POST',
+      body: formData,
+     }).then((response) => response.json())
+      .then((data) => {
+        setUrl(data.url);
+
+     });
+
+
+}
+
+
+
  const cameraRef = useRef(null);
  
  // Fonction pour prendre une photo et l'envoyer au back
@@ -122,6 +149,7 @@ const NewBaby = () => {
           }
         });
     } else {
+      console.log(fileOrPhoto);
       fetch("http://localhost:3000/baby", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -130,7 +158,7 @@ const NewBaby = () => {
           birthday,
           birthWeight: weight,
           user_id: user._id,
-          picture: url
+          picture: url,
         }),
       })
         .then((response) => response.json())
@@ -267,9 +295,20 @@ const NewBaby = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ width: 100, height: 100 }}>
-          <button onClick={() => addPhoto()}>X</button>
-          <button onClick={() => showTakePicture()}>Prendre une photo</button>
-          <button>Ajouter depuis la galerie</button>
+          <button onClick={() => addPhoto()} className={styles.closeModaleBtn}>X</button>
+         
+          <button onClick={() => showTakePicture()} className={styles.btnModalePhoto}> 
+            <img src="/cameraImg.svg" alt="camera" className={styles.cameraImg}></img>
+          Prendre une photo</button>
+        
+           
+            <label for="gallerie" id="labelGallerie" className={styles.labelGallerie}>
+            <span>Ajouter depuis la gallerie</span></label>
+          <input type="file"  id="gallerie" name="gallerie" className={styles.gallerieBtn} onChange={handleUploadImg}/>
+          <img src={file}/>
+          
+         
+          
         </Box>
       </Modal>
       <Modal

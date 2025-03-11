@@ -151,7 +151,7 @@ console.log("baby infos" , user.babies[0]);
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
-                <img className={styles.babyPicture} alt="Photo du bébé" src={user.babies[0].picture}/>
+                <img className={styles.babyPicture} alt="Photo du bébé" src={baby.picture ? baby.picture : "/avatarBaby.jpg"}/>
                 <p className={styles.babyName}>{user.babies[0].name}</p>
                 <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
                         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />

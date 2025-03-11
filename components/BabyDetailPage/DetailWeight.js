@@ -115,7 +115,7 @@ function DetailWeight() {
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
-                <img className={styles.babyPicture} alt="Photo du bébé" />
+                <img className={styles.babyPicture} alt="Photo du bébé"/>
                 <p className={styles.babyName}>{user.babies[0].name}</p>
                 <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
                         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />

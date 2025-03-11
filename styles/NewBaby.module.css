@@ -159,17 +159,57 @@ color: rgb(196, 25, 82);
 
 }
 
+
+
+
+.btnModalePhoto{
+  
+  border-radius: 35px;
+  background-color: white;
+  color: #8C8C8C;
+  border: solid 1px #7f7f7f;
+  width: 200px;
+  height: 50px;
+  position: relative;
+  top: 260px;
+  left: 70px;
+  margin-top: 20px;
+
+}
+
+.closeModaleBtn{
+
+  color: white!important;
+  opacity: 2%;
+  position: absolute;
+  top: 5px;
+ right: 0px;
+
+}
+
 .takePictureBtn{
 
-  color: pink;
-  background-color: yellow;
-  width: 50px;
+  background: white;
+  color: #8C8C8C;
+  width: 180%;
   height: 50px;
   position: absolute;
   z-index: 3;
-  right: 10px;
-  top: 10px;
+ left: 30px;
+ top: 535px;
+ border-radius: 35px;
+ border: solid 1px #7f7f7f;
 }
+
+.cameraImg{
+color:  #8C8C8C;
+
+}
+
+.takePictureBtn:hover{
+  opacity: 75%;
+}
+
 
 .cameraFrame {
 
@@ -178,8 +218,41 @@ color: rgb(196, 25, 82);
  
 }
 
+
+/* On cache l'input 😢 */
+.gallerieBtn {
+  display: none;
+}
+
+/* On créé un bouton en ciblant un élément dans la balise label */
+.labelGallerie {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 300px;
+  left: 70px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: white;
+  color: #8C8C8C;
+  cursor: pointer;
+  width: 200px;
+  border-radius: 35px;
+  height: 50px;
+}
+
+#labelGallerie span:hover {
+  background: #0d45a5;
+}
+
+
 .box{
   position: relative;
   left: 50px;
   top: 50px;
+  display: flex;
+  flex-direction: column;
+
 }
