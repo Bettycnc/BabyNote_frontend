@@ -4,9 +4,13 @@ import HeaderPro from "./HeaderPro";
 import SearchBar from "./SearchBar";
 import PatientCard from "./PatientCard";
 import "moment/locale/fr";
+import { Button } from "@mui/material";
 
 const Patient = () => {
   const [allBabies, setAllBabies] = useState([]);
+  const [search, setSearch] = useState(""); //input de recherhe
+  const [filteredBabies, setFilteredBabies] = useState([]); //tableau des bébés filtrés
+  const [switchMap, setSwitchMap] = useState(false);
 
   useEffect(() => {
     fetch("http://localhost:3000/baby")
@@ -16,9 +20,25 @@ const Patient = () => {
       });
   }, []);
 
+  const searchClick = () => {
+    if (search === "") {
+      setFilteredBabies(allBabies);
+    } else {
+      const filteredBabiesTemp = allBabies.filter((baby) =>
+        baby.name.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredBabies(filteredBabiesTemp);
+      setSwitchMap(true);
+    }
+  };
+
+  const map = allBabies;
+  switchMap ? (map = filteredBabies) : (map = allBabies);
+
+  console.log(filteredBabies);
   console.log(allBabies);
 
-  const patient = allBabies.map((data, i) => {
+  const patient = map.map((data, i) => {
     //------récupérer la date de la dernière mise à jours ---------
     const weights = data.weight_id; // Liste des objets poids
     // Récupérer la date du dernier poids enregistré
@@ -71,7 +91,7 @@ const Patient = () => {
     // on récupère la dernière date
     const lastMaj =
       lastHours.length > 0 ? lastHours[lastHours.length - 1] : null;
-    console.log("données", lastHours);
+    // console.log("données", lastHours);
 
     return (
       <PatientCard
@@ -92,7 +112,21 @@ const Patient = () => {
   return (
     <div className={styles.container}>
       <HeaderPro />
-      <SearchBar />
+      <div>
+        <div className={styles.search}>
+          <input
+            type="text"
+            className={styles.input}
+            placeholder="Rechercher un bébé"
+            id="searchPatient"
+            onChange={(e) => setSearch(e.target.value)}
+            value={search}
+          />
+          <button className={styles.loupe} onClick={searchClick}>
+            <img src="/loupe.svg" alt="Menu" className={styles.icon} />
+          </button>
+        </div>
+      </div>
       <div className={styles.cardContainer}>{patient}</div>
       <p>{noPatient}</p>
     </div>

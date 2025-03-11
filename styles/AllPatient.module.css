@@ -11,4 +11,50 @@
     .cardContainer {
         overflow-y: scroll;
     }
+    .search{
+        height: 40px; 
+        width: 100%;
+        background-color: #ffffff;
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        margin-top: 30px;
+        padding : 0px 20px;
+        border: 1px solid #969696;
+        border-radius: 20px;
+        margin-bottom: 20px;
+    }
+    .input {
+        width: 100%;
+        height: 40px;
+        color: #7f7f7f;
+        font-weight: 200;
+        border: 0;
+        font-size: 16px;
+      }
+
+    .icon {
+        color: black;
+        height: 80%;
+    }
+      .input::placeholder {
+        color: #bfbfbf
+      }
+      .input:focus-visible {
+        outline: 0;
+      }
+      /* .input:focus {
+        border: 0px;
+        border-bottom: solid 2px #32738C;
+      } */
+      
+      .input:invalid {
+        border: red solid 1px;
+      }
+      .loupe {
+        background-color: transparent;
+        border: 0px;
+      }
 }

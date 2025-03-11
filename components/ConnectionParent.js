@@ -51,11 +51,17 @@ const ConnectionParentPage = () => {
             .then((dataBaby) => {
               console.log("dataBaby : ", dataBaby);
               if (dataBaby.result) {
-                console.log("go to baby Tab")
-                dispatch(setBabies(
-                  [{name: dataBaby.name,
-                  _id: dataBaby._id, birthWeight: dataBaby.birthWeight}]))
-                  window.location.href = "/babyTab";
+                console.log("go to baby Tab");
+                dispatch(
+                  setBabies([
+                    {
+                      name: dataBaby.name,
+                      _id: dataBaby._id,
+                      birthWeight: dataBaby.birthWeight,
+                    },
+                  ])
+                );
+                window.location.href = "/babyTab";
               } else {
                 console.log("go to ajout bébé");
                 window.location.href = "/addBaby";
@@ -79,18 +85,28 @@ const ConnectionParentPage = () => {
             onChange={(e) => setSigninUsername(e.target.value)}
             value={signinUsername}
           />
-          <input
-            type={passwordVisible ? "text" : "password"}
-            className={styles.input}
-            placeholder="Mot de Passe*"
-            id="signinPassword"
-            onChange={(e) => setSigninPassword(e.target.value)}
-            value={signinPassword}
-          />
+          <div className={styles.inputPasswordContainer}>
+            <input
+              type={passwordVisible ? "text" : "password"}
+              className={styles.inputPassword}
+              placeholder="Mot de Passe*"
+              id="signinPassword"
+              onChange={(e) => setSigninPassword(e.target.value)}
+              value={signinPassword}
+            />
+            <button
+              className={styles.btnVisiblePassword}
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              aria-label="Toggle password visibility"
+            >
+              {passwordVisible ? "⚪" : "⚫"}
+            </button>
+          </div>
         </div>
-          <button className={styles.button} onClick={() => handleConnect()}>
-            Connexion
-          </button>
+        <button className={styles.button} onClick={() => handleConnect()}>
+          Connexion
+        </button>
       </div>
     </div>
   );
