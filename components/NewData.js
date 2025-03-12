@@ -424,7 +424,7 @@ const NewData = () => {
                           }}
                         />
                       }
-                      label="Sein droit"
+                      label="Sein gauche"
                     ></FormControlLabel>
                     <FormControlLabel
                       control={
@@ -440,7 +440,7 @@ const NewData = () => {
                           }}
                         />
                       }
-                      label="Sein gauche"
+                      label="Sein droit"
                     ></FormControlLabel>
                     <div className={styles.duration}>
                       <Box

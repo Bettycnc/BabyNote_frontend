@@ -393,11 +393,10 @@ const BabyPage = () => {
                       <p className={styles.textBold}>
                         {lastFeeding.duration} min
                       </p>
-                      {lastFeeding.foodSupplement.foodSupplementPresent !==
-                      true ? (
-                        <p>Complément : Oui</p>
-                      ) : (
+                      {lastFeeding.foodSupplement[0] >0 ? (
                         <p>Complément : Non</p>
+                      ) : (
+                        <p>Complément : Oui</p>
                       )}
                     </div>
                   ) : (

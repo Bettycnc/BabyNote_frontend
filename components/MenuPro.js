@@ -11,7 +11,7 @@ function MenuPro(props) {
   const [openModalUser, setOpenModalUser] = useState(false);
   const [openModalNewPatient, setOpenModalNewPatient] = useState(false);
   const [openModalDeletePatient, setOpenModalDeletePatient] = useState(false);
-  const [newUsername, setNewUsername] = useState("");
+  const [newUsername, setNewUsername] = useState(user.username);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [allBabies, setAllBabies] = useState([]);
@@ -91,7 +91,7 @@ function MenuPro(props) {
       confirmPassword: confirmPassword,
     };
 
-    fetch(`http://localhost:3000/pros/`, {
+    fetch(`http://localhost:3000/pros/${user._id}`, {
       //penser a mettre le chemin pour le profesionnel
       method: "PUT",
       headers: { "Content-Type": "application/json" },
