@@ -4,12 +4,12 @@ import HeaderPro from "./HeaderPro";
 import SearchBar from "./SearchBar";
 import PatientCard from "./PatientCard";
 import "moment/locale/fr";
-import {selectedBaby} from "../reducers/userPro"
+import { selectedBaby } from "../reducers/userPro";
 import { useDispatch } from "react-redux";
 
 const Patient = () => {
   const [allBabies, setAllBabies] = useState([]);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [search, setSearch] = useState(""); //input de recherhe
   const [filteredBabies, setFilteredBabies] = useState([]); //tableau des bébés filtrés
   const [switchMap, setSwitchMap] = useState(false);
@@ -34,11 +34,12 @@ const Patient = () => {
     }
   };
 
+  console.log(filteredBabies);
+
   const map = allBabies;
   switchMap ? (map = filteredBabies) : (map = allBabies);
 
-
-  const patient = allBabies.map((data, i) => {
+  const patient = map.map((data, i) => {
     //------récupérer la date de la dernière mise à jours ---------
     const weights = data.weight_id; // Liste des objets poids
     // Récupérer la date du dernier poids enregistré
@@ -106,9 +107,9 @@ const Patient = () => {
   });
 
   const selectPatient = (id) => {
-    dispatch(selectedBaby({ babyId: id }))
+    dispatch(selectedBaby({ babyId: id }));
     window.location.href = "/patient";
-  }
+  };
 
   let noPatient = "";
   if (allBabies.length < 1) {

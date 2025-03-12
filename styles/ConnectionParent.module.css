@@ -183,6 +183,9 @@
     border: 0px;
     border-bottom: solid 2px #32738C;
   }
+  .icon {
+    width: 24px;
+  }
 }
 
 .error {
