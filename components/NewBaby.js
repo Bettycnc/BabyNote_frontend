@@ -33,7 +33,7 @@ const NewBaby = () => {
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState("");
   const [file, setFile] = useState();
-  const[fileOrPhoto, setFileOrPhoto] = useState("");
+  const [fileOrPhoto, setFileOrPhoto] = useState("");
   const user = useSelector((state) => state.user.value);
   const dispatch = useDispatch();
 
@@ -43,42 +43,43 @@ const NewBaby = () => {
 
   function handleUploadImg(e) {
     const formData = new FormData();
-    formData.append('photoFromFront', e.target.files[0]
-     );
+    formData.append("photoFromFront", e.target.files[0]);
 
-     fetch('http://localhost:3000/baby/uploadfile', {
-      method: 'POST',
+    fetch("http://localhost:3000/baby/uploadfile", {
+      method: "POST",
       body: formData,
-     }).then((response) => response.json())
+    })
+      .then((response) => response.json())
       .then((data) => {
         setUrl(data.url);
-     });
+      });
   }
 
- const cameraRef = useRef(null);
- 
- // Fonction pour prendre une photo et l'envoyer au back
-  const takePhoto = async () =>{
+  const cameraRef = useRef(null);
+
+  // Fonction pour prendre une photo et l'envoyer au back
+  const takePhoto = async () => {
     console.log("photo");
     const photo = camera.current?.takePhoto();
-    
-    setImage(camera.current.takePhoto());
-		const formData  = new FormData();
-	
-		formData.append('photoFromFront', photo);
-		console.log(formData);
-		fetch('http://localhost:3000/baby/upload', {
-		 method: 'POST',
-		 body: JSON.stringify({photo}),
-     headers: {"content-type": "application/JSON"}
-		}).then((response) => response.json())
-		 .then((data) => {
-      setUrl(data.url);
-      console.log(data.url)
-			//dispatch(addPhoto(data.url))
-		});
 
-  }
+    setImage(camera.current.takePhoto());
+    const formData = new FormData();
+
+    formData.append("photoFromFront", photo);
+    console.log(formData);
+    fetch("http://localhost:3000/baby/upload", {
+      method: "POST",
+      body: JSON.stringify({ photo }),
+      headers: { "content-type": "application/JSON" },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setUrl(data.url);
+        console.log(data.url);
+        //dispatch(addPhoto(data.url))
+      });
+    setIsTakePictureModalVisible(false);
+  };
 
   const showTakePicture = () => {
     setIsModalPhotoVisible(!isModalPhotoVisible);
@@ -156,12 +157,16 @@ const NewBaby = () => {
             setError(data.error);
           } else {
             setError("");
-            dispatch(setBabies([{
+            dispatch(
+              setBabies([
+                {
                   name: data.baby.name,
                   _id: data.baby._id,
-                  birthWeight : data.baby.birthWeight,
+                  birthWeight: data.baby.birthWeight,
                   picture: data.baby.picture,
-                }]));
+                },
+              ])
+            );
             window.location.href = "/babyTab";
           }
         });
@@ -283,20 +288,37 @@ const NewBaby = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ width: 100, height: 100 }}>
-          <button onClick={() => addPhoto()} className={styles.closeModaleBtn}>X</button>
-         
-          <button onClick={() => showTakePicture()} className={styles.btnModalePhoto}> 
-            <img src="/cameraImg.svg" alt="camera" className={styles.cameraImg}></img>
-          Prendre une photo</button>
-        
-           
-            <label for="gallerie" id="labelGallerie" className={styles.labelGallerie}>
-            <span>Ajouter depuis la gallerie</span></label>
-          <input type="file"  id="gallerie" name="gallerie" className={styles.gallerieBtn} onChange={handleUploadImg}/>
+          <button onClick={() => addPhoto()} className={styles.closeModaleBtn}>
+            X
+          </button>
+
+          <button
+            onClick={() => showTakePicture()}
+            className={styles.btnModalePhoto}
+          >
+            <img
+              src="/cameraImg.svg"
+              alt="camera"
+              className={styles.cameraImg}
+            ></img>
+            Prendre une photo
+          </button>
+
+          <label
+            for="gallerie"
+            id="labelGallerie"
+            className={styles.labelGallerie}
+          >
+            <span>Ajouter depuis la gallerie</span>
+          </label>
+          <input
+            type="file"
+            id="gallerie"
+            name="gallerie"
+            className={styles.gallerieBtn}
+            onChange={handleUploadImg}
+          />
           {/* <img src={file}/> */}
-          
-         
-          
         </Box>
       </Modal>
       <Modal
@@ -306,10 +328,7 @@ const NewBaby = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={{ width: 100, height: 100 }} className={styles.box}>
-          <button
-            className={styles.takePictureBtn}
-            onClick={()=> takePhoto()}
-          >
+          <button className={styles.takePictureBtn} onClick={() => takePhoto()}>
             <img src="/cameraImg.svg" alt="camera"></img>
             Take photo
           </button>
@@ -318,10 +337,9 @@ const NewBaby = () => {
         </Box>
       </Modal>
 
-
-        <button className={styles.button} onClick={() => addBabies()}>
-          Valider
-        </button>
+      <button className={styles.button} onClick={() => addBabies()}>
+        Valider
+      </button>
     </div>
   );
 };
