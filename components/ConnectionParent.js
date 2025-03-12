@@ -19,7 +19,7 @@ const ConnectionParentPage = () => {
 
   const handleConnect = () => {
     // console.log("Utilisateur : ", signinUsername, "MdP : ", signinPassword);
-    fetch("http://localhost:3000/users/signin", {
+    fetch("https://baby-note-backend.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -46,7 +46,7 @@ const ConnectionParentPage = () => {
             })
           );
           //si le parent est associé à un bébé dans la BDD alors redirection vers page tableau de bord sinon redirection vers ajoutter un bébé
-          fetch(`http://localhost:3000/baby/redirection/${userId}`)
+          fetch(`https://baby-note-backend.vercel.app/baby/redirection/${userId}`)
             .then((response) => response.json())
             .then((dataBaby) => {
               console.log("dataBaby : ", dataBaby);

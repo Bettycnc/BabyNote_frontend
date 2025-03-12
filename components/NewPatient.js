@@ -11,7 +11,7 @@ const NewPatientPage = () => {
 
   const handleAdd = () => {
     if (signUpRoom > 0 && signUpRoom < 99) {
-      fetch("http://localhost:3000/users/signup", {
+      fetch("https://baby-note-backend.vercel.app/users/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

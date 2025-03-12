@@ -38,7 +38,7 @@ function DetailAlimentation() {
 console.log("reducer", user.babies[0])
 
     useEffect(() => {
-        fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/alimentation`)
+        fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/alimentation`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
@@ -129,7 +129,7 @@ console.log("reducer", user.babies[0])
                 amount: valAmount
             });
         }
-        fetch(`http://localhost:3000/babyData/alimentation/${selectedId}`, {
+        fetch(`https://baby-note-backend.vercel.app/babyData/alimentation/${selectedId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

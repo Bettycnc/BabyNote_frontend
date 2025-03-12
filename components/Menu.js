@@ -16,7 +16,7 @@ function Menu(props) {
     const [babyInfo, setBabyInfo] = useState([])
 
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/search/${user._id}`)
+        fetch(`https://baby-note-backend.vercel.app/baby/search/${user._id}`)
             .then((response) => response.json())
             .then((dataBaby) => {
                 setBabyInfo(dataBaby.babies);
@@ -55,7 +55,7 @@ function Menu(props) {
             confirmPassword: confirmPassword,
         }
 
-        fetch(`http://localhost:3000/users/${user._id}`, {
+        fetch(`https://baby-note-backend.vercel.app/users/${user._id}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

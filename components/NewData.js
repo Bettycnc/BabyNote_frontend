@@ -63,7 +63,7 @@ const NewData = () => {
 
     //Récupération des données du bébé actuel
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
+        fetch(`https://baby-note-backend.vercel.app/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
@@ -203,7 +203,7 @@ const NewData = () => {
                 });
             }
         
-            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/alimentation`, {
+            await fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/alimentation`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -222,7 +222,7 @@ const NewData = () => {
                 gambling:gambling
             }
 
-            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/elimination`, {
+            await fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/elimination`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -239,7 +239,7 @@ const NewData = () => {
                 date: formattedDate,
                 weight: Number(weight)
             }
-            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`, {
+            await fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/weight`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -256,7 +256,7 @@ const NewData = () => {
                 date: formattedDate,
                 temperature: temperature
             }
-            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`, {
+            await fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/temperature`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
@@ -275,7 +275,7 @@ const NewData = () => {
                 faceCare: faceCare,
                 bath: bain,
             }
-            await fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/care`, {
+            await fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/care`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)

@@ -22,7 +22,7 @@ function DetailElimination() {
     const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
 
     useEffect(() => {
-        fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/elimination`)
+        fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/elimination`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
@@ -58,7 +58,7 @@ function DetailElimination() {
             urine,
             gambling
         }
-        fetch(`http://localhost:3000/babyData/elimination/${selectedId}`, {
+        fetch(`https://baby-note-backend.vercel.app/babyData/elimination/${selectedId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

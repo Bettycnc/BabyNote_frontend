@@ -25,7 +25,7 @@ function DetailTemperature() {
     
 
     useEffect(() => {
-        fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/temperature`)
+        fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/temperature`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
@@ -64,7 +64,7 @@ function DetailTemperature() {
         }
         console.log('temperature :',data)
 
-        fetch(`http://localhost:3000/babyData/temperature/${selectedId}`, {
+        fetch(`https://baby-note-backend.vercel.app/babyData/temperature/${selectedId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

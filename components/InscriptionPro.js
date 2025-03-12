@@ -15,7 +15,7 @@ const InscriptionPro = () => {
   const dispatch = useDispatch();
 
   const handleSignUp = () => {
-    fetch("http://localhost:3000/pros/signup", {
+    fetch("https://baby-note-backend.vercel.app/pros/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

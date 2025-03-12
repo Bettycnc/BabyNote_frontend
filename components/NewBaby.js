@@ -45,7 +45,7 @@ const NewBaby = () => {
     const formData = new FormData();
     formData.append("photoFromFront", e.target.files[0]);
 
-    fetch("http://localhost:3000/baby/uploadfile", {
+    fetch("https://baby-note-backend.vercel.app/baby/uploadfile", {
       method: "POST",
       body: formData,
     })
@@ -67,7 +67,7 @@ const NewBaby = () => {
 
     formData.append("photoFromFront", photo);
     console.log(formData);
-    fetch("http://localhost:3000/baby/upload", {
+    fetch("https://baby-note-backend.vercel.app/baby/upload", {
       method: "POST",
       body: JSON.stringify({ photo }),
       headers: { "content-type": "application/JSON" },
@@ -117,7 +117,7 @@ const NewBaby = () => {
         },
       ];
 
-      fetch("http://localhost:3000/baby/babies", {
+      fetch("https://baby-note-backend.vercel.app/baby/babies", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(arrDataBaby),
@@ -139,7 +139,7 @@ const NewBaby = () => {
         });
     } else {
       console.log(fileOrPhoto);
-      fetch("http://localhost:3000/baby", {
+      fetch("https://baby-note-backend.vercel.app/baby", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

@@ -48,7 +48,7 @@ const Patient = () => {
 
   // Utilisation de useEffect pour récupérer les données du bébé depuis l'API
   useEffect(() => {
-    fetch(`http://localhost:3000/baby/${userPro.babyId}`)
+    fetch(`https://baby-note-backend.vercel.app/baby/${userPro.babyId}`)
       .then((response) => response.json())
       .then((data) => {
         setBabiesData(data.data);

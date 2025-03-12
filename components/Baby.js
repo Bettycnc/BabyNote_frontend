@@ -14,7 +14,7 @@ const BabyPage = () => {
   const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
+    fetch(`https://baby-note-backend.vercel.app/baby/${user.babies[0]._id}`)
       .then((response) => response.json())
       .then((data) => {
         setBaby(data.data);
@@ -32,7 +32,7 @@ const BabyPage = () => {
   }, [isBurgerMenuVisible]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
+    fetch(`https://baby-note-backend.vercel.app/baby/${user.babies[0]._id}`)
       .then((response) => response.json())
       .then((data) => {
         setBaby(data.data);

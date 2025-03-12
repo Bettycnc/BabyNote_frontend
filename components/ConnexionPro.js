@@ -17,7 +17,7 @@ const ConnexionPro = () => {
   };
 
   const handleConnection = () => {
-    fetch("http://localhost:3000/pros/signin", {
+    fetch("https://baby-note-backend.vercel.app/pros/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

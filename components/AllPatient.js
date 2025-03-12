@@ -15,7 +15,7 @@ const Patient = () => {
   const [switchMap, setSwitchMap] = useState(false);
 
   useEffect(() => {
-    fetch("http://localhost:3000/baby")
+    fetch("https://baby-note-backend.vercel.app/baby")
       .then((response) => response.json())
       .then((data) => {
         setAllBabies(data.filteredData);

@@ -24,7 +24,7 @@ function DetailWeight() {
     const user = useSelector((state) => state.user.value);
     console.log("reducer", user.babies[0])
     useEffect(() => {
-        fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`)
+        fetch(`https://baby-note-backend.vercel.app/babyData/${user.babies[0]._id}/weight`)
             .then(response => response.json())
             .then(data => {
                 setBaby(data.data);
@@ -69,7 +69,7 @@ function DetailWeight() {
             weight: weight
         }
 
-        fetch(`http://localhost:3000/babyData/weight/${selectedId}`, {
+        fetch(`https://baby-note-backend.vercel.app/babyData/weight/${selectedId}`, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(data),

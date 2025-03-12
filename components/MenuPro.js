@@ -50,7 +50,7 @@ function MenuPro(props) {
   };
 
   const handelDeletePatient = (id) => {
-    fetch(`http://localhost:3000/users/delete/${id}`, {
+    fetch(`https://baby-note-backend.vercel.app/users/delete/${id}`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(),
@@ -91,7 +91,7 @@ function MenuPro(props) {
       confirmPassword: confirmPassword,
     };
 
-    fetch(`http://localhost:3000/pros/${user._id}`, {
+    fetch(`https://baby-note-backend.vercel.app/pros/${user._id}`, {
       //penser a mettre le chemin pour le profesionnel
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -110,7 +110,7 @@ function MenuPro(props) {
 
   //je récupérer les données bébé
   useEffect(() => {
-    fetch("http://localhost:3000/baby")
+    fetch("https://baby-note-backend.vercel.app/baby")
       .then((response) => response.json())
       .then((data) => {
         setAllBabies(data.filteredData);
