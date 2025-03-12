@@ -71,6 +71,11 @@ const ConnectionParentPage = () => {
       });
   };
 
+  let iconVisible = "/eye-regular.svg";
+  passwordVisible
+    ? (iconVisible = "/eye-slash-regular.svg")
+    : (iconVisible = "/eye-regular.svg");
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -100,7 +105,7 @@ const ConnectionParentPage = () => {
               onClick={() => setPasswordVisible(!passwordVisible)}
               aria-label="Toggle password visibility"
             >
-              {passwordVisible ? "⚪" : "⚫"}
+              <img src={iconVisible} alt="Alert" className={styles.icon} />
             </button>
           </div>
         </div>

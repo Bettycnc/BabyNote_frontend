@@ -44,6 +44,7 @@ const Patient = () => {
 
   // Récupération des informations utilisateur via Redux
   const userPro = useSelector((state) => state.userPro.value);
+  const user = useSelector((state) => state.user.value);
 
   // Utilisation de useEffect pour récupérer les données du bébé depuis l'API
   useEffect(() => {
@@ -141,13 +142,19 @@ const Patient = () => {
   };
 
   // Catégories des données pour faciliter l'accès
-  const categories = ['alimentation_id', 'elimination_id', 'care_id', 'temperature_id', 'weight_id'];
+  const categories = [
+    "alimentation_id",
+    "elimination_id",
+    "care_id",
+    "temperature_id",
+    "weight_id",
+  ];
   let mergedData = [];
 
   // Fusionner les données de toutes les catégories dans un seul tableau
-  categories.forEach(category => {
+  categories.forEach((category) => {
     if (Array.isArray(babiesData[category])) {
-      babiesData[category].forEach(item => {
+      babiesData[category].forEach((item) => {
         mergedData.push({ ...item, category });
       });
     }
@@ -157,45 +164,47 @@ const Patient = () => {
   mergedData.sort((a, b) => new Date(a.date) - new Date(b.date));
 
   // Regrouper les données par jour et assigner un index "Jour0", "Jour1", "Jour2", ...
-  const groupedByDate = Object.values(mergedData.reduce((acc, item, index) => {
-    const date = new Date(item.date).toISOString().split('T')[0]; // Extraire la date sans l'heure
+  const groupedByDate = Object.values(
+    mergedData.reduce((acc, item, index) => {
+      const date = new Date(item.date).toISOString().split("T")[0]; // Extraire la date sans l'heure
 
-    if (!acc[date]) {
-      acc[date] = { label: `Jour ${Object.keys(acc).length}`, items: [] }; // Créer "Jour0", "Jour1", ...
-    }
-    acc[date].items.push(item);
-
-    return acc;
-  }, {})).map(group => ({ [group.label]: group.items }));
-
-
-  // Regrouper les données par jour puis par heure
-  const groupedByHours = groupedByDate.map(group => {
-    const label = Object.keys(group)[0];
-    const valeur = group[label].map(data => {
-      const date = new Date(data.date);
-
-      const options = { hour: '2-digit', minute: '2-digit' };
-      const timeString = date.toLocaleTimeString('fr-FR', options);
-
-      return { timeString, data };
-    });
-
-    // Regrouper par heure
-    const groupedByTime = valeur.reduce((acc, { timeString, data }) => {
-      if (!acc[timeString]) {
-        acc[timeString] = [];
+      if (!acc[date]) {
+        acc[date] = { label: `Jour ${Object.keys(acc).length}`, items: [] }; // Créer "Jour0", "Jour1", ...
       }
-      acc[timeString].push(data);
+      acc[date].items.push(item);
 
       return acc;
-    }, {});
+    }, {})
+  ).map((group) => ({ [group.label]: group.items }));
 
-    // Formater les résultats finaux pour avoir la bonne structure
-    const result = Object.keys(groupedByTime).map(timeString => ({
-      heure : timeString,
-      data: groupedByTime[timeString],
-    }));
+  // Regrouper les données par jour puis par heure
+  const groupedByHours = groupedByDate
+    .map((group) => {
+      const label = Object.keys(group)[0];
+      const valeur = group[label].map((data) => {
+        const date = new Date(data.date);
+
+        const options = { hour: "2-digit", minute: "2-digit" };
+        const timeString = date.toLocaleTimeString("fr-FR", options);
+
+        return { timeString, data };
+      });
+
+      // Regrouper par heure
+      const groupedByTime = valeur.reduce((acc, { timeString, data }) => {
+        if (!acc[timeString]) {
+          acc[timeString] = [];
+        }
+        acc[timeString].push(data);
+
+        return acc;
+      }, {});
+
+      // Formater les résultats finaux pour avoir la bonne structure
+      const result = Object.keys(groupedByTime).map((timeString) => ({
+        heure: timeString,
+        data: groupedByTime[timeString],
+      }));
 
     return {
       label,
@@ -208,12 +217,13 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
 
 
   // Filtrer les données pour afficher uniquement celles du jour sélectionné
-  const filteredData = Object.keys(affichageDay).map(date => ({
+  const filteredData = Object.keys(affichageDay).map((date) => ({
     affichage: affichageDay[date],
   }));
 
-  const dayKeys = groupedByHours.map(item => Object.keys(item)[0]);
+  console.log(filteredData)
 
+  const dayKeys = groupedByHours.map((item) => Object.keys(item)[0]);
 
   const handelOpenModal = () => {
     setOpenModal(true)
@@ -251,7 +261,9 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
     <div className={styles.container}>
       <div className={styles.header}>
         <div>
-          <p className={styles.h3}>Mme {motherName} - {babyName}</p>
+          <p className={styles.h3}>
+            Mme {motherName} - {babyName}
+          </p>
           <p className={styles.h4}>Chambre {room}</p>
         </div>
         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} onClick={displayMenu}/>
@@ -274,7 +286,13 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
           </FormControl>
         </Box>
         <Stack spacing={2}>
-          <ButtonStyle sx={{ minWidth: 150, color: ' #6596a9', border: '1px solid #6596a9' }} variant="outlined" endIcon={<FilterAltIcon />} onClick={handelOpenModal}>Filtres</ButtonStyle>
+          <ButtonStyle
+            sx={{ minWidth: 150 }}
+            variant="outlined"
+            endIcon={<FilterAltIcon />}
+          >
+            Filtres
+          </ButtonStyle>
         </Stack>
       </div>
 
@@ -293,13 +311,13 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
             </TableRow>
           </TableHead>
           <TableBody>
-            {filteredData.map((data, index) => (
+            {filteredData.map((data, index) =>
               data.affichage.map((item) => (
-              <TableRow key={index}>
-                {/* Affiche l'heure */}
-                <TableCell>
+                <TableRow key={index}>
+                  {/* Affiche l'heure */}
+                  <TableCell>
                     <div>{item.heure}</div>
-                </TableCell>
+                  </TableCell>
 
 
                 {showWeight === true &&
@@ -414,18 +432,14 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
                   {item.data && item.data.length > 0 ? (
                       // Filtrer uniquement les objets avec un poids défini
                       item.data.some((innerItem) => innerItem.bath) ? (
-                        item.data.map((innerItem, i) => (
-                          innerItem.bath ? (
-                            <div key={i}>
-                              Oui
-                            </div>
-                            ) : null
-                        ))
+                        item.data.map((innerItem, i) =>
+                          innerItem.bath ? <div key={i}>Oui</div> : null
+                        )
                       ) : (
                         <p>-</p>
                       )
                     ) : (
-                      <p>-</p> 
+                      <p>-</p>
                     )}
                   </TableCell>              
                 }
@@ -435,18 +449,14 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
                   <TableCell align="center" sx={{ width: '60px' }}>
                   {item.data && item.data.length > 0 ? (
                       item.data.some((innerItem) => innerItem.cordCare) ? (
-                        item.data.map((innerItem, i) => (
-                          innerItem.cordCare ? (
-                            <div key={i}>
-                              Oui
-                            </div>
-                            ) : null
-                        ))
+                        item.data.map((innerItem, i) =>
+                          innerItem.cordCare ? <div key={i}>Oui</div> : null
+                        )
                       ) : (
                         <p>-</p>
                       )
                     ) : (
-                      <p>-</p> 
+                      <p>-</p>
                     )}
                   </TableCell>              
                 }
@@ -456,25 +466,21 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
                   <TableCell align="center" sx={{ width: '60px' }}>
                   {item.data && item.data.length > 0 ? (
                       item.data.some((innerItem) => innerItem.faceCare) ? (
-                        item.data.map((innerItem, i) => (
-                          innerItem.faceCare ? (
-                            <div key={i}>
-                              Oui
-                            </div>
-                            ) : null
-                        ))
+                        item.data.map((innerItem, i) =>
+                          innerItem.faceCare ? <div key={i}>Oui</div> : null
+                        )
                       ) : (
                         <p>-</p>
                       )
                     ) : (
-                      <p>-</p> 
+                      <p>-</p>
                     )}
                   </TableCell>              
                 }
 
               </TableRow>
               ))
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
@@ -646,4 +652,4 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
 };
 
 
-export default Patient; 
+export default Patient;
