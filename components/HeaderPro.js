@@ -17,17 +17,19 @@ const HeaderPro = () => {
   }
 
   return (
-      <div className={styles.header}>
+      <div >
         {isBurgerMenuVisible === true && (
           <MenuPro handelClose={handelClose}/>
         )}
-        <div>
+        <div className={styles.header}>
+          <div>
           <p className={styles.h3}>Bonjour {userPro.username} !</p>
           <p className={styles.h4}>Suite de couche</p>
         </div>
         <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
           <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
         </button>
+        </div>
       </div>   
   );
 };

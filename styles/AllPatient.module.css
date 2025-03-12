@@ -6,25 +6,25 @@
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        padding: 20px
     }
     .cardContainer {
         overflow-y: scroll;
+        padding: 20px
     }
     .search{
         height: 40px; 
-        width: 100%;
+        width: 90%;
         background-color: #ffffff;
         overflow: hidden;
         display: flex;
         flex-direction: row;
         align-items: center;
-
+        margin: 20px;
+        padding-top : 20px;
         margin-top: 30px;
         padding : 0px 20px;
         border: 1px solid #969696;
         border-radius: 20px;
-        margin-bottom: 20px;
     }
     .input {
         width: 100%;

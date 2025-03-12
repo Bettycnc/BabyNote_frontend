@@ -43,13 +43,8 @@ const NewBaby = () => {
   };
 
   function handleUploadImg(e) {
-
     const formData = new FormData();
-
-   
-
     formData.append('photoFromFront', e.target.files[0]
-      
      );
 
      fetch('http://localhost:3000/baby/uploadfile', {
@@ -58,13 +53,8 @@ const NewBaby = () => {
      }).then((response) => response.json())
       .then((data) => {
         setUrl(data.url);
-
      });
-
-
-}
-
-
+  }
 
  const cameraRef = useRef(null);
  
@@ -74,11 +64,8 @@ const NewBaby = () => {
     const photo = camera.current?.takePhoto();
     
     setImage(camera.current.takePhoto());
-    
-		
 		const formData  = new FormData();
 	
-
 		formData.append('photoFromFront', photo);
 		console.log(formData);
 		fetch('http://localhost:3000/baby/upload', {
@@ -91,9 +78,6 @@ const NewBaby = () => {
       console.log(data.url)
 			//dispatch(addPhoto(data.url))
 		});
-
-
-
 
   }
 

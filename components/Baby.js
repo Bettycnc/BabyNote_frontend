@@ -13,8 +13,9 @@ const BabyPage = () => {
     const user = useSelector((state) => state.user.value);
     const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)
 
+
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/${user.babies._id}`)
+        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
                 console.log(data.data.picture)
@@ -152,7 +153,7 @@ if (!sortedDataAlim) {
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" src={baby.picture ? baby.picture : "/avatarBaby.jpg"}/>
-                <p className={styles.babyName}>{user.babies.name}</p>
+                <p className={styles.babyName}>{user.babies[0].name}</p>
                 <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
                         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
                 </button>

@@ -37,6 +37,7 @@ const PatientCard = (props) => {
       <p className={styles.maj}>Dernière mise à jour : {formatedLastMaj}</p>
     );
   }
+  
   return (
     <div className={styles.card}>
       <button className={styles.buttonPatient} onClick={props.selectPatient}>
