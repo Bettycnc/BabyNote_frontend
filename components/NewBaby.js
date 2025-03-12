@@ -289,7 +289,7 @@ const NewBaby = () => {
             <label for="gallerie" id="labelGallerie" className={styles.labelGallerie}>
             <span>Ajouter depuis la gallerie</span></label>
           <input type="file"  id="gallerie" name="gallerie" className={styles.gallerieBtn} onChange={handleUploadImg}/>
-          <img src={file}/>
+          {/* <img src={file}/> */}
           
          
           

@@ -18,8 +18,13 @@ const BabyPage = () => {
         fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data.data.picture)
                 setBaby(data.data);
+                dispatch(setBabies([{
+                    name: data.data.name,
+                    _id: data.data._id,
+                    birthWeight : data.data.birthWeight,
+                    picture: data.data.picture,
+                  }]))
             });
     }, [isBurgerMenuVisible]); 
 

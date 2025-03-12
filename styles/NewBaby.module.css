@@ -222,7 +222,7 @@ color:  #8C8C8C;
 /* On cache l'input 😢 */
 .gallerieBtn {
   display: none;
-}
+} 
 
 /* On créé un bouton en ciblant un élément dans la balise label */
 .labelGallerie {
