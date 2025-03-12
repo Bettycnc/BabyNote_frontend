@@ -3,20 +3,21 @@ import React, { useEffect, useState } from "react";
 import { PieChart, Pie, Cell } from "recharts";
 import moment from "moment";
 import Link from "next/link";
-import {useSelector } from "react-redux";
+import {useDispatch, useSelector } from "react-redux";
 import Menu from './Menu'
-
+import { setBabies } from '../reducers/user';
 
 const BabyPage = () => {
     const [baby, setBaby] = useState(null);
+    const dispatch = useDispatch()
     const user = useSelector((state) => state.user.value);
     const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)
 
     useEffect(() => {
-        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
+        fetch(`http://localhost:3000/baby/${user.babies._id}`)
             .then(response => response.json())
             .then(data => {
-                console.log(data)
+                console.log(data.data.picture)
                 setBaby(data.data);
             });
     }, [isBurgerMenuVisible]); 
@@ -151,7 +152,7 @@ if (!sortedDataAlim) {
             {/* Header */}
             <div className={styles.header}>
                 <img className={styles.babyPicture} alt="Photo du bébé" src={baby.picture ? baby.picture : "/avatarBaby.jpg"}/>
-                <p className={styles.babyName}>{user.babies[0].name}</p>
+                <p className={styles.babyName}>{user.babies.name}</p>
                 <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
                         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
                 </button>
