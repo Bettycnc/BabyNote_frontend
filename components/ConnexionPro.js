@@ -8,8 +8,13 @@ const ConnexionPro = () => {
   const [signInUsername, setSignInUsername] = useState("");
   const [signInPassword, setSignInPassword] = useState("");
   const [error, setError] = useState("");
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const dispatch = useDispatch();
+
+  const toggleVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   const handleConnection = () => {
     fetch("http://localhost:3000/pros/signin", {
@@ -31,7 +36,7 @@ const ConnexionPro = () => {
             login({
               token: data.token,
               username: data.data.username,
-              _id: data.data._id
+              _id: data.data._id,
             })
           );
           window.location.href = "/listPatient";
@@ -40,6 +45,11 @@ const ConnexionPro = () => {
         }
       });
   };
+
+  let iconVisible = "/eye-regular.svg";
+  passwordVisible
+    ? (iconVisible = "/eye-slash-regular.svg")
+    : (iconVisible = "/eye-regular.svg");
 
   return (
     <div className={styles.container}>
@@ -56,14 +66,24 @@ const ConnexionPro = () => {
             value={signInUsername}
           />
 
-          <input
-            type="password"
-            className={styles.input}
-            placeholder="Mot de passe*"
-            id="signInPassword"
-            onChange={(e) => setSignInPassword(e.target.value)}
-            value={signInPassword}
-          />
+          <div className={styles.inputPasswordContainer}>
+            <input
+              type={passwordVisible ? "text" : "password"}
+              className={styles.inputPassword}
+              placeholder="Mot de Passe*"
+              id="signinPassword"
+              onChange={(e) => setSignInPassword(e.target.value)}
+              value={signInPassword}
+            />
+            <button
+              className={styles.btnVisiblePassword}
+              type="button"
+              onClick={() => setPasswordVisible(!passwordVisible)}
+              aria-label="Toggle password visibility"
+            >
+              <img src={iconVisible} alt="Alert" className={styles.icon} />
+            </button>
+          </div>
         </div>
         <button
           className={styles.button}

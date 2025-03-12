@@ -56,7 +56,7 @@ const InscriptionPro = () => {
     <div className={styles.container}>
       <div className={styles.card}>
         <div className={styles.containerTitleInput}>
-          <span className={styles.h4}>Inscription</span>
+          <p className={styles.h4}>Inscription</p>
           <p className={styles.error}>{error}</p>
           <input
             type="text"

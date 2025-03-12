@@ -209,6 +209,7 @@
     margin-bottom: 20px;
     margin-top: 20px;
     color: rgba(226, 226, 226, 1);
+    border: 0px
 }
 
 .detailButton{
@@ -300,6 +301,8 @@
     font-size: 20px;
     font-weight: bold;
 }
-
+.icon {
+    width: 24px;
+}
 
 }
