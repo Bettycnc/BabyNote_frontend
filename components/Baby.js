@@ -13,19 +13,23 @@ const BabyPage = () => {
   const user = useSelector((state) => state.user.value);
   const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false);
 
-    useEffect(() => {
-        fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
-            .then(response => response.json())
-            .then(data => {
-                setBaby(data.data);
-                dispatch(setBabies([{
-                    name: data.data.name,
-                    _id: data.data._id,
-                    birthWeight : data.data.birthWeight,
-                    picture: data.data.picture,
-                  }]))
-            });
-    }, [isBurgerMenuVisible]); 
+  useEffect(() => {
+    fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        setBaby(data.data);
+        dispatch(
+          setBabies([
+            {
+              name: data.data.name,
+              _id: data.data._id,
+              birthWeight: data.data.birthWeight,
+              picture: data.data.picture,
+            },
+          ])
+        );
+      });
+  }, [isBurgerMenuVisible]);
 
   useEffect(() => {
     fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
@@ -117,22 +121,23 @@ const BabyPage = () => {
     : null;
   //----------conditions pour afficher les alertes Température -----------
   let TemperatureIconAlert = "";
-
-  if (lastEntryTemp.temperature > 37.9 || lastEntryTemp.temperature < 36.1) {
-    TemperatureIconAlert = (
-      <img src="/urgent.svg" alt="Alert" className={styles.icon} />
-    );
-  } else if (
-    lastEntryTemp.temperature <= 36.5 ||
-    lastEntryTemp.temperature >= 37.5
-  ) {
-    TemperatureIconAlert = (
-      <img src="/warning.svg" alt="Alert" className={styles.icon} />
-    );
-  } else {
-    TemperatureIconAlert = (
-      <img src="/success.svg" alt="success" className={styles.icon} />
-    );
+  if (lastEntryTemp !== null) {
+    if (lastEntryTemp.temperature > 37.9 || lastEntryTemp.temperature < 36.1) {
+      TemperatureIconAlert = (
+        <img src="/urgent.svg" alt="Alert" className={styles.icon} />
+      );
+    } else if (
+      lastEntryTemp.temperature <= 36.5 ||
+      lastEntryTemp.temperature >= 37.5
+    ) {
+      TemperatureIconAlert = (
+        <img src="/warning.svg" alt="Alert" className={styles.icon} />
+      );
+    } else {
+      TemperatureIconAlert = (
+        <img src="/success.svg" alt="success" className={styles.icon} />
+      );
+    }
   }
 
   //DONNEES POUR BAIN
@@ -146,25 +151,27 @@ const BabyPage = () => {
     : null;
 
   //----------conditions pour afficher les alertes Bain-----------
-  let bathIconAlert = "";
   const dateNow = moment(Date.now());
-  const lastDateBath = moment(lastBath.date);
-  //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
-  const passedMinutesBath = (dateNow - lastDateBath) / 1000 / 60;
-  console.log(passedMinutesBath);
+  let bathIconAlert = "";
+  if (formatedDateBath !== null) {
+    const lastDateBath = moment(lastBath.date);
+    //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
+    const passedMinutesBath = (dateNow - lastDateBath) / 1000 / 60;
+    console.log(passedMinutesBath);
 
-  if (passedMinutesBath > 4320) {
-    bathIconAlert = (
-      <img src="/urgent.svg" alt="Alert" className={styles.icon} />
-    );
-  } else if (passedMinutesBath > 2880) {
-    bathIconAlert = (
-      <img src="/warning.svg" alt="Alert" className={styles.icon} />
-    );
-  } else {
-    bathIconAlert = (
-      <img src="/success.svg" alt="success" className={styles.icon} />
-    );
+    if (passedMinutesBath > 4320) {
+      bathIconAlert = (
+        <img src="/urgent.svg" alt="Alert" className={styles.icon} />
+      );
+    } else if (passedMinutesBath > 2880) {
+      bathIconAlert = (
+        <img src="/warning.svg" alt="Alert" className={styles.icon} />
+      );
+    } else {
+      bathIconAlert = (
+        <img src="/success.svg" alt="success" className={styles.icon} />
+      );
+    }
   }
 
   //DONNEES POUR Visage
@@ -179,22 +186,24 @@ const BabyPage = () => {
 
   //----------conditions pour afficher les alertes Soin visage-----------
   let faceIconAlert = "";
-  const lastDateFace = moment(lastCareFace.date);
-  //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
-  const passedMinutesFace = (dateNow - lastDateFace) / 1000 / 60;
+  if (formatedDateCareFace !== null) {
+    const lastDateFace = moment(lastCareFace.date);
+    //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
+    const passedMinutesFace = (dateNow - lastDateFace) / 1000 / 60;
 
-  if (passedMinutesFace > 1440) {
-    faceIconAlert = (
-      <img src="/urgent.svg" alt="Alert" className={styles.icon} />
-    );
-  } else if (passedMinutesFace > 720) {
-    faceIconAlert = (
-      <img src="/warning.svg" alt="Alert" className={styles.icon} />
-    );
-  } else {
-    faceIconAlert = (
-      <img src="/success.svg" alt="success" className={styles.icon} />
-    );
+    if (passedMinutesFace > 1440) {
+      faceIconAlert = (
+        <img src="/urgent.svg" alt="Alert" className={styles.icon} />
+      );
+    } else if (passedMinutesFace > 720) {
+      faceIconAlert = (
+        <img src="/warning.svg" alt="Alert" className={styles.icon} />
+      );
+    } else {
+      faceIconAlert = (
+        <img src="/success.svg" alt="success" className={styles.icon} />
+      );
+    }
   }
 
   //DONNEES POUR CORDON
@@ -208,22 +217,25 @@ const BabyPage = () => {
     : null;
   //----------conditions pour afficher les alertes Soin du cordon-----------
   let cordIconAlert = "";
-  const lastDateCord = moment(lastCareCord.date);
-  //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
-  const passedMinutesCord = (dateNow - lastDateCord) / 1000 / 60;
 
-  if (passedMinutesCord > 720) {
-    cordIconAlert = (
-      <img src="/urgent.svg" alt="Alert" className={styles.icon} />
-    );
-  } else if (passedMinutesCord > 360) {
-    cordIconAlert = (
-      <img src="/warning.svg" alt="Alert" className={styles.icon} />
-    );
-  } else {
-    cordIconAlert = (
-      <img src="/success.svg" alt="success" className={styles.icon} />
-    );
+  if (formatedDateCareCord !== null) {
+    const lastDateCord = moment(lastCareCord.date);
+    //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
+    const passedMinutesCord = (dateNow - lastDateCord) / 1000 / 60;
+
+    if (passedMinutesCord > 720) {
+      cordIconAlert = (
+        <img src="/urgent.svg" alt="Alert" className={styles.icon} />
+      );
+    } else if (passedMinutesCord > 360) {
+      cordIconAlert = (
+        <img src="/warning.svg" alt="Alert" className={styles.icon} />
+      );
+    } else {
+      cordIconAlert = (
+        <img src="/success.svg" alt="success" className={styles.icon} />
+      );
+    }
   }
 
   //DONNEES POUR ALIMENTATION
