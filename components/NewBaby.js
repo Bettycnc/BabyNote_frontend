@@ -27,8 +27,7 @@ const NewBaby = () => {
   const [displayBaby2, setDisplayBaby2] = useState(false);
 
   const [isModalPhotoVisible, setIsModalPhotoVisible] = useState(false);
-  const [isTakePictureModalVisible, setIsTakePictureModalVisible] =
-    useState(false);
+  const [isTakePictureModalVisible, setIsTakePictureModalVisible] = useState(false);
   const [isModalGallerieVisible, setIsModalGallerieVisible] = useState(false);
   const camera = useRef(null);
   const [image, setImage] = useState(null);
@@ -124,12 +123,17 @@ const NewBaby = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("click", data);
           if (!data.result) {
             setError(data.error);
           } else {
             setError("");
-            console.log("changement de page");
+            dispatch(setBabies([{
+              name: data.data[0].name,
+              _id: data.data[0]._id,
+              birthWeight : data.data[0].birthWeight,
+              picture: data.data[0].picture,
+            }]));
+            window.location.href = "/babyTab";
           }
         });
     } else {

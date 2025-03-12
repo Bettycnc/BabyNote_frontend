@@ -35,7 +35,6 @@ const BabyPage = () => {
     fetch(`http://localhost:3000/baby/${user.babies[0]._id}`)
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.data.picture);
         setBaby(data.data);
       });
   }, [isBurgerMenuVisible]);
@@ -157,7 +156,7 @@ const BabyPage = () => {
     const lastDateBath = moment(lastBath.date);
     //calculer la différence de temps en minutes entre la dernière Maj et l'heure actuelle
     const passedMinutesBath = (dateNow - lastDateBath) / 1000 / 60;
-    console.log(passedMinutesBath);
+
 
     if (passedMinutesBath > 4320) {
       bathIconAlert = (
@@ -272,6 +271,7 @@ const BabyPage = () => {
       lastFeeding = { amount: feedingBottle[0].amount, date: formatedDateAlim };
     }
   }
+
 
   return (
     <div>
@@ -405,10 +405,10 @@ const BabyPage = () => {
                       <p className={styles.textBold}>
                         {lastFeeding.duration} min
                       </p>
-                      {lastFeeding.foodSupplement[0] >0 ? (
-                        <p>Complément : Non</p>
-                      ) : (
+                      {lastFeeding.foodSupplement.length > 0 ? (
                         <p>Complément : Oui</p>
+                      ) : (
+                        <p>Complément : Non</p>
                       )}
                     </div>
                   ) : (
