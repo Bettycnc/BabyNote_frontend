@@ -275,7 +275,6 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
         <Box>
           {/* Sélecteur de jour */}
           <FormControl className={styles.inputJour}>
-            <InputLabel >Choisir un jour</InputLabel>
             <Select className={styles.MenuItem} value={day} onChange={handleChange}>
               {dayKeys.map((key, index) => (
                   <MenuItem className={styles.MenuItemColor} key={index} value={key}>
@@ -287,10 +286,11 @@ let affichageDay = groupedByHours[parseInt(day.replace('Jour ', ''), 10)] || {};
         </Box>
         <Stack spacing={2}>
           <ButtonStyle
-            sx={{ minWidth: 150 }}
+            onClick={handelOpenModal}
+            sx={{ height: '40px' ,minWidth: 150, color:'rgba(50, 115, 140, 1)', border:'1px solid rgba(50, 115, 140, 1)' }}
             variant="outlined"
-            endIcon={<FilterAltIcon />}
-          >
+            endIcon={<FilterAltIcon 
+            />}>
             Filtres
           </ButtonStyle>
         </Stack>
