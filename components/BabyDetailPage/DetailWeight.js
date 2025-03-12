@@ -13,15 +13,16 @@ import Menu from '../Menu'
 
 function DetailWeight() {
     const [baby, setBaby] = useState(null);
-    const user = useSelector((state) => state.user.value);
+   
     const [openModal, setOpenModal] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
     const [selectedTime, setSelectedTime] = useState(dayjs());
     const formattedDate = selectedTime.toISOString();
     const [weight, setWeight] = useState(null)
     const [isBurgerMenuVisible, setIsBurgerMenuVisible] = useState(false)  
-    
-    
+   
+    const user = useSelector((state) => state.user.value);
+    console.log("reducer", user.babies[0])
     useEffect(() => {
         fetch(`http://localhost:3000/babyData/${user.babies[0]._id}/weight`)
             .then(response => response.json())
@@ -115,7 +116,7 @@ function DetailWeight() {
         <div className={styles.container}>
             {/* Header */}
             <div className={styles.header}>
-                <img className={styles.babyPicture} alt="Photo du bébé"/>
+                <img className={styles.babyPicture} alt="Photo du bébé" src={user.babies[0].picture ? `${user.babies[0].picture}` : "/avatarBaby.jpg" }/>
                 <p className={styles.babyName}>{user.babies[0].name}</p>
                 <button style={{backgroundColor: 'transparent', cursor: 'pointer', border:'none'}}  onClick={displayMenu}>
                         <img src="/BurgerMenu.svg" alt="Menu" className={styles.BurgerMenu} />
