@@ -31,13 +31,6 @@ const BabyPage = () => {
       });
   }, [isBurgerMenuVisible]);
 
-  useEffect(() => {
-    fetch(`https://baby-note-backend.vercel.app/baby/${user.babies[0]._id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        setBaby(data.data);
-      });
-  }, [isBurgerMenuVisible]);
 
   if (!baby) {
     return <p>Chargement...</p>;
